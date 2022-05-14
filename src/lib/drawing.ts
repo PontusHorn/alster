@@ -29,6 +29,10 @@ function drawRectangle(ctx: Ctx, bindings: Bindings, shape: Shape) {
 	ctx.fillRect(x, y, width, height);
 }
 
+export function isShapeType(type: unknown): type is Shape['type'] {
+	return type === 'rectangle';
+}
+
 function randomColor() {
 	return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }

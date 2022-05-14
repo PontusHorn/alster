@@ -18,6 +18,8 @@ export const getIsOp =
 	(...values: OperatorType[]) =>
 	(token: Readonly<Token>): token is Operator =>
 		isOp(token) && (values.length === 0 || values.includes(token.value));
+export const isOpType = (type: unknown): type is OperatorType =>
+	type === '+' || type === '-' || type === '*' || type === '/' || type === '%' || type === '^';
 export const isRef = (token: Readonly<Token>): token is Ref => token.type === 'ref';
 export const isVal = (token: Readonly<Token>): token is Value => token.type === 'value';
 
@@ -62,7 +64,7 @@ export function resolveExpressionAtIndex(
 	return { type: 'value', value: resolveOperator(left, operator.value, right) };
 }
 
-function expressionToString(expression: Readonly<Expression>): string {
+export function expressionToString(expression: Readonly<Expression>): string {
 	return expression.map(tokenToString).join(' ');
 }
 
@@ -75,6 +77,26 @@ function tokenToString(token: Readonly<Token>): string {
 		case 'value':
 			return token.value.toString();
 	}
+}
+
+export function stringToExpression(value: string): Expression | null {
+	const expression: Expression = [];
+	const match = value.match(/\+|-|\*|\/|%|\^|-?\d+(?:\.\d+)?|\$[a-zA-Z0-9_]+/g);
+	if (match === null) return null;
+
+	for (const stringToken of match) {
+		if (isOpType(stringToken)) {
+			expression.push(op(stringToken));
+		} else if (stringToken.startsWith('$')) {
+			expression.push(ref(stringToken.slice(1)));
+		} else {
+			const number = Number.parseFloat(stringToken);
+			if (Number.isNaN(number)) return null;
+			expression.push(val(number));
+		}
+	}
+
+	return expression;
 }
 
 function resolveRefs(
