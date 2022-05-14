@@ -113,7 +113,3 @@ function resolveOperator(
 			return left.value ** right.value;
 	}
 }
-
-export function randomColor() {
-	return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
