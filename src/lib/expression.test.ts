@@ -16,17 +16,87 @@ describe('evaluate', () => {
 		});
 	});
 
+	describe('addition', () => {
+		it('resolves addition of value and value', () => {
+			expect(evaluate([val(6), op('+'), val(3)], {})).toBe(9);
+		});
+
+		it('resolves addition of value and reference', () => {
+			expect(evaluate([val(12), op('+'), ref('i')], { i: 4 })).toBe(16);
+		});
+
+		it('resolves addition of reference and reference', () => {
+			expect(evaluate([ref('i'), op('+'), ref('j')], { i: 4, j: 2 })).toBe(6);
+		});
+	});
+
+	describe('subtraction', () => {
+		it('resolves subtraction of value and value', () => {
+			expect(evaluate([val(6), op('-'), val(3)], {})).toBe(3);
+		});
+
+		it('resolves subtraction of value and reference', () => {
+			expect(evaluate([val(12), op('-'), ref('i')], { i: 4 })).toBe(8);
+		});
+
+		it('resolves subtraction of reference and reference', () => {
+			expect(evaluate([ref('i'), op('-'), ref('j')], { i: 4, j: 2 })).toBe(2);
+		});
+	});
+
 	describe('multiplication', () => {
 		it('resolves multiplication of value and value', () => {
-			expect(evaluate([val(5), op('*'), val(3)], {})).toBe(15);
+			expect(evaluate([val(6), op('*'), val(3)], {})).toBe(18);
 		});
 
 		it('resolves multiplication of value and reference', () => {
-			expect(evaluate([val(5), op('*'), ref('i')], { i: 4 })).toBe(20);
+			expect(evaluate([val(12), op('*'), ref('i')], { i: 4 })).toBe(48);
 		});
 
 		it('resolves multiplication of reference and reference', () => {
-			expect(evaluate([ref('i'), op('*'), ref('j')], { i: 4, j: 3 })).toBe(12);
+			expect(evaluate([ref('i'), op('*'), ref('j')], { i: 4, j: 2 })).toBe(8);
+		});
+	});
+
+	describe('division', () => {
+		it('resolves division of value and value', () => {
+			expect(evaluate([val(6), op('/'), val(3)], {})).toBe(2);
+		});
+
+		it('resolves division of value and reference', () => {
+			expect(evaluate([val(12), op('/'), ref('i')], { i: 4 })).toBe(3);
+		});
+
+		it('resolves division of reference and reference', () => {
+			expect(evaluate([ref('i'), op('/'), ref('j')], { i: 4, j: 2 })).toBe(2);
+		});
+	});
+
+	describe('remainder', () => {
+		it('resolves remainder of value divided by value', () => {
+			expect(evaluate([val(7), op('%'), val(3)], {})).toBe(1);
+		});
+
+		it('resolves remainder of value divided by reference', () => {
+			expect(evaluate([val(12), op('%'), ref('i')], { i: 4 })).toBe(0);
+		});
+
+		it('resolves remainder of reference divided by reference', () => {
+			expect(evaluate([ref('i'), op('%'), ref('j')], { i: 14, j: 3 })).toBe(2);
+		});
+	});
+
+	describe('exponent', () => {
+		it('resolves value to the power of value', () => {
+			expect(evaluate([val(6), op('^'), val(3)], {})).toBe(216);
+		});
+
+		it('resolves value to the power of reference', () => {
+			expect(evaluate([val(12), op('^'), ref('i')], { i: 4 })).toBe(20736);
+		});
+
+		it('resolves reference to the power of reference', () => {
+			expect(evaluate([ref('i'), op('^'), ref('j')], { i: 4, j: 2 })).toBe(16);
 		});
 	});
 });
