@@ -1,9 +1,25 @@
 <script lang="ts">
+	import { op, ref, val } from '$lib/expression';
 	import Canvas from '$lib/Canvas.svelte';
 	import type { Config } from '$lib/types';
 
 	const config: Config = {
-		background: '#ffffff'
+		background: '#ffffff',
+		pattern: {
+			start: 0,
+			end: 10,
+			each: {
+				shape: {
+					type: 'rectangle',
+					color: 'random',
+					x: [ref('i'), op('*'), val(10)],
+					y: [ref('i'), op('*'), val(10)],
+					width: [val(30)],
+					height: [val(30)]
+				}
+			}
+		}
+	};
 </script>
 
 <div>
