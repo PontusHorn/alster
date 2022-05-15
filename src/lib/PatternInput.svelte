@@ -6,7 +6,7 @@
 	const SHAPE_DEFAULTS: Record<Shape['type'], Shape> = {
 		rectangle: {
 			type: 'rectangle',
-			color: 'random',
+			color: { type: 'randomColor' },
 			x: [val(0)],
 			y: [val(0)],
 			width: [val(100)],

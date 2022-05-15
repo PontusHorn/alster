@@ -1,5 +1,5 @@
 export type Config = {
-	background: string;
+	background: Color;
 	pattern: Pattern | undefined;
 };
 
@@ -17,12 +17,17 @@ export type Shape = Rectangle;
 
 export type Rectangle = {
 	type: 'rectangle';
-	color: 'random';
+	color: Color;
 	x: Expression;
 	y: Expression;
 	width: Expression;
 	height: Expression;
 };
+
+export type Color = RandomColor | Hsl | Rgb;
+export type RandomColor = { type: 'randomColor' };
+export type Hsl = { type: 'hsl'; hue: Expression; saturation: Expression; lightness: Expression };
+export type Rgb = { type: 'rgb'; red: Expression; green: Expression; blue: Expression };
 
 export type Bindings = Record<string, number>;
 export type Expression = Token[];

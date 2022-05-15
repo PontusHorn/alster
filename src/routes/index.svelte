@@ -1,22 +1,27 @@
 <script lang="ts">
 	import { op, ref, val } from '$lib/expression';
 	import Canvas from '$lib/Canvas.svelte';
-	import type { Config, Pattern } from '$lib/types';
+	import type { Color, Config, Pattern } from '$lib/types';
 	import PatternInput from '$lib/PatternInput.svelte';
 	import FormGrid from '$lib/FormGrid.svelte';
 
-	let background = '#ffffff';
+	let background: Color = { type: 'rgb', red: [val(255)], green: [val(255)], blue: [val(255)] };
 	let pattern: Pattern = {
 		start: 0,
 		end: 100,
 		each: {
 			shape: {
 				type: 'rectangle',
-				color: 'random',
-				x: [ref('i'), op('*'), val(10)],
-				y: [ref('i'), op('*'), val(10)],
-				width: [val(30)],
-				height: [val(30)]
+				color: {
+					type: 'hsl',
+					hue: [ref('i'), op('*'), val(10), op('-'), ref('time'), op('*'), val(0.05)],
+					saturation: [val(70)],
+					lightness: [val(50)]
+				},
+				x: [ref('i'), op('*'), val(7)],
+				y: [ref('i'), op('*'), val(6)],
+				width: [val(100)],
+				height: [val(6)]
 			}
 		}
 	};
