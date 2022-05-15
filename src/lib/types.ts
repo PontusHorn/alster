@@ -13,7 +13,7 @@ export type Iteration = {
 	shape: Shape;
 };
 
-export type Shape = Rectangle;
+export type Shape = Rectangle | Ellipse;
 
 export type Rectangle = {
 	type: 'rectangle';
@@ -22,6 +22,17 @@ export type Rectangle = {
 	y: Expression;
 	width: Expression;
 	height: Expression;
+	rotation: Expression;
+};
+
+export type Ellipse = {
+	type: 'ellipse';
+	color: Color;
+	x: Expression;
+	y: Expression;
+	width: Expression;
+	height: Expression;
+	rotation: Expression;
 };
 
 export type Color = RandomColor | Hsl | Rgb;

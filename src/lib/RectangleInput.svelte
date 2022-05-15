@@ -24,4 +24,7 @@
 
 	<label for="RectangleInput-height-{index}">Height:</label>
 	<ExpressionInput id="RectangleInput-height-{index}" bind:value={shape.height} />
+
+	<label for="RectangleInput-rotation-{index}">Rotation:</label>
+	<ExpressionInput id="RectangleInput-rotation-{index}" bind:value={shape.rotation} />
 </FormGrid>

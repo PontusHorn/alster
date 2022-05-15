@@ -21,7 +21,8 @@
 				x: [ref('i'), op('*'), val(7)],
 				y: [ref('i'), op('*'), val(6)],
 				width: [val(100)],
-				height: [val(6)]
+				height: [val(6)],
+				rotation: [ref('i'), op('*'), val(0.06)]
 			}
 		}
 	};
