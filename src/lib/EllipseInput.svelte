@@ -3,8 +3,10 @@
 </script>
 
 <script lang="ts">
+	import ColorInput from '$lib/ColorInput.svelte';
 	import ExpressionInput from '$lib/ExpressionInput.svelte';
 	import FormGrid from '$lib/FormGrid.svelte';
+	import FormGroup from '$lib/FormGroup.svelte';
 	import type { Ellipse } from '$lib/types';
 
 	const index = counter++;
@@ -28,3 +30,7 @@
 	<label for="EllipseInput-rotation-{index}">Rotation:</label>
 	<ExpressionInput id="EllipseInput-rotation-{index}" bind:value={shape.rotation} />
 </FormGrid>
+
+<FormGroup>
+	<ColorInput bind:color={shape.color} />
+</FormGroup>

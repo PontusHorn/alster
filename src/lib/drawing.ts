@@ -1,5 +1,5 @@
-import { evaluate } from '$lib/expression';
-import type { Bindings, Ellipse, Color, Pattern, Rectangle, Shape } from '$lib/types';
+import { evaluate, val } from '$lib/expression';
+import type { Bindings, Ellipse, Color, Pattern, Rectangle, Shape, Hsl, Rgb } from '$lib/types';
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -72,13 +72,13 @@ function getColor(color: Color, bindings: Bindings): string {
 		case 'randomColor':
 			return randomColor();
 		case 'hsl':
-			return hsl(
+			return stringFromHsl(
 				evaluate(color.hue, bindings),
 				evaluate(color.saturation, bindings),
 				evaluate(color.lightness, bindings)
 			);
 		case 'rgb':
-			return rgb(
+			return stringFromRgb(
 				evaluate(color.red, bindings),
 				evaluate(color.green, bindings),
 				evaluate(color.blue, bindings)
@@ -90,7 +90,7 @@ function randomColor() {
 	return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
-function hsl(hue: number, saturation: number, lightness: number) {
+function stringFromHsl(hue: number, saturation: number, lightness: number) {
 	let adjustedHue = hue % 360;
 	if (adjustedHue < 0) {
 		adjustedHue += 360;
@@ -98,8 +98,41 @@ function hsl(hue: number, saturation: number, lightness: number) {
 	return `hsl(${adjustedHue}, ${clamp(saturation, 0, 100)}%, ${clamp(lightness, 0, 100)}%)`;
 }
 
-function rgb(red: number, green: number, blue: number) {
+function stringFromRgb(red: number, green: number, blue: number) {
 	return `rgb(${clamp(red, 0, 255)}, ${clamp(green, 0, 255)}, ${clamp(blue, 0, 255)})`;
+}
+
+export function makeColor(type: Color['type']): Color {
+	switch (type) {
+		case 'randomColor':
+			return { type: 'randomColor' };
+		case 'hsl':
+			return makeHsl(0, 0, 0);
+		case 'rgb':
+			return makeRgb(0, 0, 0);
+	}
+}
+
+function makeHsl(hue: number, saturation: number, lightness: number): Hsl {
+	return {
+		type: 'hsl',
+		hue: [val(hue)],
+		saturation: [val(saturation)],
+		lightness: [val(lightness)]
+	};
+}
+
+function makeRgb(red: number, green: number, blue: number): Rgb {
+	return {
+		type: 'rgb',
+		red: [val(red)],
+		green: [val(green)],
+		blue: [val(blue)]
+	};
+}
+
+export function isColorType(type: unknown): type is Color['type'] {
+	return type === 'randomColor' || type === 'hsl' || type === 'rgb';
 }
 
 function clamp(value: number, min: number, max: number) {
