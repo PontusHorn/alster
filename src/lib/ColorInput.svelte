@@ -6,8 +6,9 @@
 	import { isColorType, makeColor } from '$lib/drawing';
 	import FormGrid from '$lib/FormGrid.svelte';
 	import HslInput from '$lib/HslInput.svelte';
+	import NumberedColorInput from '$lib/NumberedColorInput.svelte';
 	import RgbInput from '$lib/RgbInput.svelte';
-	import type { Color } from '$lib/types';
+	import { ColorType, type Color } from '$lib/types';
 
 	const index = counter++;
 
@@ -24,17 +25,23 @@
 <FormGrid>
 	<label for="ColorInput-type-{index}" class="label-type">Color:</label>
 	<select id="ColorInput-type-{index}" value={color.type} on:change={onChangeColorType}>
-		<option value="hsl">HSL</option>
-		<option value="rgb">RGB</option>
-		<option value="randomColor">Random color</option>
+		<option value={ColorType.Hsl}>HSL</option>
+		<option value={ColorType.Rgb}>RGB</option>
+		<option value={ColorType.Hex}>Fixed color</option>
+		<option value={ColorType.Numbered}>Numbered color</option>
+		<option value={ColorType.Random}>Random color</option>
 	</select>
 </FormGrid>
 
-{#if color.type === 'hsl'}
+{#if color.type === ColorType.Hsl}
 	<HslInput bind:color />
-{:else if color.type === 'rgb'}
+{:else if color.type === ColorType.Rgb}
 	<RgbInput bind:color />
-{:else if color.type === 'randomColor'}
+{:else if color.type === ColorType.Hex}
+	<input type="color" bind:value={color.hex} />
+{:else if color.type === ColorType.Numbered}
+	<NumberedColorInput bind:color />
+{:else if color.type === ColorType.Random}
 	<!-- No inputs -->
 {:else}
 	Invalid color

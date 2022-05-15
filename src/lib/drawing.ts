@@ -1,5 +1,16 @@
 import { evaluate, val } from '$lib/expression';
-import type { Bindings, Ellipse, Color, Pattern, Rectangle, Shape, Hsl, Rgb } from '$lib/types';
+import {
+	type Bindings,
+	type Ellipse,
+	type Color,
+	type Pattern,
+	type Rectangle,
+	type Shape,
+	type Hsl,
+	type Rgb,
+	ColorType,
+	type Expression
+} from '$lib/types';
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -69,15 +80,19 @@ export function isShapeType(type: unknown): type is Shape['type'] {
 
 function getColor(color: Color, bindings: Bindings): string {
 	switch (color.type) {
-		case 'randomColor':
+		case ColorType.Hex:
+			return color.hex;
+		case ColorType.Random:
 			return randomColor();
-		case 'hsl':
+		case ColorType.Numbered:
+			return numberedColor(evaluate(color.value, bindings));
+		case ColorType.Hsl:
 			return stringFromHsl(
 				evaluate(color.hue, bindings),
 				evaluate(color.saturation, bindings),
 				evaluate(color.lightness, bindings)
 			);
-		case 'rgb':
+		case ColorType.Rgb:
 			return stringFromRgb(
 				evaluate(color.red, bindings),
 				evaluate(color.green, bindings),
@@ -86,8 +101,18 @@ function getColor(color: Color, bindings: Bindings): string {
 	}
 }
 
-function randomColor() {
+export function randomColor() {
 	return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+const numberedColors = new Map<number, string>();
+export function numberedColor(n: number): string {
+	const existingColor = numberedColors.get(n);
+	if (existingColor) return existingColor;
+
+	const color = randomColor();
+	numberedColors.set(n, color);
+	return color;
 }
 
 function stringFromHsl(hue: number, saturation: number, lightness: number) {
@@ -104,35 +129,47 @@ function stringFromRgb(red: number, green: number, blue: number) {
 
 export function makeColor(type: Color['type']): Color {
 	switch (type) {
-		case 'randomColor':
-			return { type: 'randomColor' };
-		case 'hsl':
+		case ColorType.Hex:
+			return { type: ColorType.Hex, hex: '#000000' };
+		case ColorType.Random:
+			return { type: ColorType.Random };
+		case ColorType.Numbered:
+			return { type: ColorType.Numbered, value: [val(0)] };
+		case ColorType.Hsl:
 			return makeHsl(0, 0, 0);
-		case 'rgb':
+		case ColorType.Rgb:
 			return makeRgb(0, 0, 0);
 	}
 }
 
-function makeHsl(hue: number, saturation: number, lightness: number): Hsl {
+export function makeHsl(
+	hue: number | Expression,
+	saturation: number | Expression,
+	lightness: number | Expression
+): Hsl {
 	return {
-		type: 'hsl',
-		hue: [val(hue)],
-		saturation: [val(saturation)],
-		lightness: [val(lightness)]
+		type: ColorType.Hsl,
+		hue: typeof hue === 'number' ? [val(hue)] : hue,
+		saturation: typeof saturation === 'number' ? [val(saturation)] : saturation,
+		lightness: typeof lightness === 'number' ? [val(lightness)] : lightness
 	};
 }
 
-function makeRgb(red: number, green: number, blue: number): Rgb {
+export function makeRgb(
+	red: number | Expression,
+	green: number | Expression,
+	blue: number | Expression
+): Rgb {
 	return {
-		type: 'rgb',
-		red: [val(red)],
-		green: [val(green)],
-		blue: [val(blue)]
+		type: ColorType.Rgb,
+		red: typeof red === 'number' ? [val(red)] : red,
+		green: typeof green === 'number' ? [val(green)] : green,
+		blue: typeof blue === 'number' ? [val(blue)] : blue
 	};
 }
 
 export function isColorType(type: unknown): type is Color['type'] {
-	return type === 'randomColor' || type === 'hsl' || type === 'rgb';
+	return Object.values(ColorType).includes(type as ColorType);
 }
 
 function clamp(value: number, min: number, max: number) {
