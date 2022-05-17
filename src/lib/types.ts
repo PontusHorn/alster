@@ -60,8 +60,13 @@ export type Rgb = {
 };
 
 export type Bindings = Record<string, number>;
-export type Expression = Token[];
-export type ValueExpression = Exclude<Token, Ref>[];
+export type Expression<T extends Token = Token> = {
+	type: 'expression';
+	value: ExpressionPart<T>[];
+};
+export type ExpressionPart<T extends Token = Token> = T | Expression;
+export type ValueExpression = Expression<ValueToken>;
+export type ValueToken = Exclude<Token, Ref>;
 export type Token = Ref | Value | Operator;
 export type Operator = { type: 'operator'; value: OperatorType };
 export type OperatorType = '+' | '-' | '*' | '/' | '%' | '^';

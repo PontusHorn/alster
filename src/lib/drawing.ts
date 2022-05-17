@@ -1,4 +1,4 @@
-import { evaluate, val } from '$lib/expression';
+import { evaluate, toExp, type ToExpInput } from '$lib/expression';
 import {
 	type Bindings,
 	type Ellipse,
@@ -8,8 +8,7 @@ import {
 	type Shape,
 	type Hsl,
 	type Rgb,
-	ColorType,
-	type Expression
+	ColorType
 } from '$lib/types';
 
 type Ctx = CanvasRenderingContext2D;
@@ -134,7 +133,7 @@ export function makeColor(type: Color['type']): Color {
 		case ColorType.Random:
 			return { type: ColorType.Random };
 		case ColorType.Numbered:
-			return { type: ColorType.Numbered, value: [val(0)] };
+			return { type: ColorType.Numbered, value: toExp(0) };
 		case ColorType.Hsl:
 			return makeHsl(0, 0, 0);
 		case ColorType.Rgb:
@@ -142,29 +141,21 @@ export function makeColor(type: Color['type']): Color {
 	}
 }
 
-export function makeHsl(
-	hue: number | Expression,
-	saturation: number | Expression,
-	lightness: number | Expression
-): Hsl {
+export function makeHsl(hue: ToExpInput, saturation: ToExpInput, lightness: ToExpInput): Hsl {
 	return {
 		type: ColorType.Hsl,
-		hue: typeof hue === 'number' ? [val(hue)] : hue,
-		saturation: typeof saturation === 'number' ? [val(saturation)] : saturation,
-		lightness: typeof lightness === 'number' ? [val(lightness)] : lightness
+		hue: toExp(hue),
+		saturation: toExp(saturation),
+		lightness: toExp(lightness)
 	};
 }
 
-export function makeRgb(
-	red: number | Expression,
-	green: number | Expression,
-	blue: number | Expression
-): Rgb {
+export function makeRgb(red: ToExpInput, green: ToExpInput, blue: ToExpInput): Rgb {
 	return {
 		type: ColorType.Rgb,
-		red: typeof red === 'number' ? [val(red)] : red,
-		green: typeof green === 'number' ? [val(green)] : green,
-		blue: typeof blue === 'number' ? [val(blue)] : blue
+		red: toExp(red),
+		green: toExp(green),
+		blue: toExp(blue)
 	};
 }
 

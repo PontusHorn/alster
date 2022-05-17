@@ -6,66 +6,100 @@ import type {
 	Token,
 	Value,
 	ValueExpression,
-	Ref
+	Ref,
+	ExpressionPart,
+	ValueToken
 } from '$lib/types';
 
 export const op = (value: OperatorType): Operator => ({ type: 'operator', value });
 export const ref = (name: string): Ref => ({ type: 'ref', name });
 export const val = (value: number): Value => ({ type: 'value', value });
+export const exp = (...value: ExpressionPart[]): Expression => ({
+	type: 'expression',
+	value
+});
+export type ToExpInput = ExpressionPart[] | number | string;
+export const toExp = (value: Expression | ExpressionPart[] | number | string): Expression => {
+	if (typeof value === 'number') return exp(val(value));
+	if (typeof value === 'string') return stringToExpression(value);
 
-export const isOp = (token: Readonly<Token>): token is Operator => token.type === 'operator';
+	if (Array.isArray(value)) {
+		return { type: 'expression', value };
+	}
+
+	return value;
+};
+
+export const isOp = (part: Readonly<ExpressionPart>): part is Operator => part.type === 'operator';
 export const getIsOp =
 	(...values: OperatorType[]) =>
-	(token: Readonly<Token>): token is Operator =>
-		isOp(token) && (values.length === 0 || values.includes(token.value));
+	(part: Readonly<ExpressionPart>): part is Operator =>
+		isOp(part) && (values.length === 0 || values.includes(part.value));
 export const isOpType = (type: unknown): type is OperatorType =>
 	type === '+' || type === '-' || type === '*' || type === '/' || type === '%' || type === '^';
-export const isRef = (token: Readonly<Token>): token is Ref => token.type === 'ref';
-export const isVal = (token: Readonly<Token>): token is Value => token.type === 'value';
+export const isRef = (part: Readonly<ExpressionPart>): part is Ref => part.type === 'ref';
+export const isVal = (part: Readonly<ExpressionPart>): part is Value => part.type === 'value';
+export const isExpression = (part: Readonly<ExpressionPart>): part is Expression =>
+	part.type === 'expression';
 
 export function evaluate(expression: Readonly<Expression>, bindings: Readonly<Bindings>): number {
 	let updatedExpression = resolveRefs(expression, bindings);
+	updatedExpression = evaluateSubExpressions(updatedExpression);
 	updatedExpression = evaluateOperators(['^'], updatedExpression);
 	updatedExpression = evaluateOperators(['*', '/', '%'], updatedExpression);
 	updatedExpression = evaluateOperators(['+', '-'], updatedExpression);
 
-	if (updatedExpression.length > 1 || !isVal(updatedExpression[0])) {
+	if (updatedExpression.value.length > 1 || !isVal(updatedExpression.value[0])) {
 		throw new Error("Can't resolve expression further: " + expressionToString(updatedExpression));
 	}
 
-	return updatedExpression[0].value;
+	return updatedExpression.value[0].value;
+}
+
+export function evaluateSubExpressions(expression: ValueExpression): ValueExpression {
+	const updatedExpression = { ...expression, value: expression.value.slice() };
+	const subExpressions = updatedExpression.value.filter(isExpression);
+	for (const subExpression of subExpressions) {
+		const index = updatedExpression.value.indexOf(subExpression);
+		updatedExpression.value.splice(index, 1, val(evaluate(subExpression, {})));
+	}
+
+	return updatedExpression;
 }
 
 export function evaluateOperators(
 	operatorTypes: OperatorType[],
 	expression: Readonly<ValueExpression>
 ): ValueExpression {
-	const updatedExpression = expression.slice();
-	const operators = updatedExpression.filter(getIsOp(...operatorTypes));
+	const updatedExpression = { ...expression, value: expression.value.slice() };
+	const operators = updatedExpression.value.filter(getIsOp(...operatorTypes));
 	for (const operator of operators) {
-		const index = updatedExpression.indexOf(operator);
-		updatedExpression.splice(index - 1, 3, resolveExpressionAtIndex(updatedExpression, index));
+		const index = updatedExpression.value.indexOf(operator);
+		updatedExpression.value.splice(
+			index - 1,
+			3,
+			resolveExpressionAtIndex(updatedExpression, index)
+		);
 	}
 
 	return updatedExpression;
 }
 
-export function resolveExpressionAtIndex(
-	expression: Readonly<ValueExpression>,
-	index: number
-): Value {
-	const left = expression[index - 1];
-	const operator = expression[index];
-	const right = expression[index + 1];
+export function resolveExpressionAtIndex(expression: ValueExpression, index: number): Value {
+	const left = expression.value[index - 1];
+	const operator = expression.value[index];
+	const right = expression.value[index + 1];
 	if (!isVal(left) || !isVal(right) || !isOp(operator)) {
-		throw new Error('Invalid sub-expression: ' + expressionToString([left, operator, right]));
+		throw new Error('Invalid sub-expression: ' + expressionToString(exp(left, operator, right)));
 	}
 
 	return { type: 'value', value: resolveOperator(left, operator.value, right) };
 }
 
 export function expressionToString(expression: Readonly<Expression>): string {
-	return expression.map(tokenToString).join(' ');
+	return expression.value
+		.map((part) => (isExpression(part) ? `(${expressionToString(part)})` : tokenToString(part)))
+		.join(' ');
 }
 
 function tokenToString(token: Readonly<Token>): string {
@@ -79,21 +113,46 @@ function tokenToString(token: Readonly<Token>): string {
 	}
 }
 
-export function stringToExpression(value: string): Expression | null {
-	const expression: Expression = [];
-	const match = value.match(/\+|-|\*|\/|%|\^|-?\d+(?:\.\d+)?|\$[a-zA-Z0-9_]+/g);
-	if (match === null) return null;
+export function stringToExpression(value: string): Expression {
+	const expression = exp();
+	const match = value.match(
+		/\+|(?<!(^|[+\-*/%^(])\s*)-|\*|\/|%|\^|\(|\)|-?\d+(?:\.\d+)?|\$[a-zA-Z0-9_]+/g
+	);
+	if (match === null) {
+		throw new Error('No valid tokens found in expression' + value);
+	}
 
+	const expressionStack = [expression];
+	let currentExpression: Expression;
 	for (const stringToken of match) {
-		if (isOpType(stringToken)) {
-			expression.push(op(stringToken));
+		currentExpression = expressionStack[expressionStack.length - 1];
+
+		if (stringToken === '(') {
+			expressionStack.push(exp());
+		} else if (stringToken === ')') {
+			const subExpression = expressionStack.pop();
+			if (!subExpression || subExpression === expression) {
+				throw new Error('Unmatched end bracket: ' + value);
+			}
+			if (subExpression.value.length > 0) {
+				currentExpression = expressionStack[expressionStack.length - 1];
+				currentExpression.value.push(subExpression);
+			}
+		} else if (isOpType(stringToken)) {
+			currentExpression.value.push(op(stringToken));
 		} else if (stringToken.startsWith('$')) {
-			expression.push(ref(stringToken.slice(1)));
+			currentExpression.value.push(ref(stringToken.slice(1)));
 		} else {
 			const number = Number.parseFloat(stringToken);
-			if (Number.isNaN(number)) return null;
-			expression.push(val(number));
+			if (Number.isNaN(number)) {
+				throw new Error('Invalid number: ' + stringToken);
+			}
+			currentExpression.value.push(val(number));
 		}
+	}
+
+	if (expressionStack.length > 1) {
+		throw new Error('Unmatched start bracket: ' + value);
 	}
 
 	return expression;
@@ -103,16 +162,22 @@ function resolveRefs(
 	expression: Readonly<Expression>,
 	bindings: Readonly<Bindings>
 ): ValueExpression {
-	return expression.map((token) => {
-		if (!isRef(token)) return token;
+	const value = expression.value.map((part): ValueToken | ValueExpression => {
+		if (isExpression(part)) {
+			return resolveRefs(part, bindings);
+		}
 
-		const value = bindings[token.name];
+		if (!isRef(part)) return part;
+
+		const value = bindings[part.name];
 		if (typeof value !== 'number') {
-			throw new Error('Invalid reference: ' + tokenToString(token));
+			throw new Error('Invalid reference: ' + tokenToString(part));
 		}
 
 		return { type: 'value', value };
 	});
+
+	return { type: 'expression', value };
 }
 
 function resolveOperator(
