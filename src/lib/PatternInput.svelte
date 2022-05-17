@@ -13,9 +13,7 @@
 	export let pattern: Pattern;
 </script>
 
-<FormGroup>
-	<h2>Pattern</h2>
-
+<FormGroup title="Pattern" open>
 	<FormGrid>
 		<label for="PatternInput-start-{index}">Start:</label>
 		<input id="PatternInput-start-{index}" type="number" bind:value={pattern.start} />
@@ -24,7 +22,5 @@
 		<input id="PatternInput-end-{index}" type="number" bind:value={pattern.end} />
 	</FormGrid>
 
-	<FormGroup>
-		<ShapeInput bind:shape={pattern.each.shape} />
-	</FormGroup>
+	<ShapeInput bind:shape={pattern.each.shape} />
 </FormGroup>

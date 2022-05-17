@@ -30,7 +30,3 @@
 	<label for="EllipseInput-rotation-{index}">Rotation:</label>
 	<ExpressionInput id="EllipseInput-rotation-{index}" bind:value={shape.rotation} />
 </FormGrid>
-
-<FormGroup>
-	<ColorInput bind:color={shape.color} />
-</FormGroup>

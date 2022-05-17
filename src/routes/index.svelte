@@ -1,9 +1,9 @@
 <script lang="ts">
+	import BackgroundInput from '$lib/BackgroundInput.svelte';
 	import Canvas from '$lib/Canvas.svelte';
-	import ColorInput from '$lib/ColorInput.svelte';
+	import ConfigGrid from '$lib/ConfigGrid.svelte';
 	import { makeHsl, makeRgb } from '$lib/drawing';
 	import { op, ref, val } from '$lib/expression';
-	import FormGroup from '$lib/FormGroup.svelte';
 	import PatternInput from '$lib/PatternInput.svelte';
 	import type { Color, Config, Pattern } from '$lib/types';
 
@@ -32,11 +32,9 @@
 	$: config = { background, pattern };
 </script>
 
-<FormGroup>
-	<h2>Background</h2>
-	<ColorInput bind:color={background} />
-</FormGroup>
-
-<PatternInput bind:pattern />
+<ConfigGrid>
+	<BackgroundInput bind:background />
+	<PatternInput bind:pattern />
+</ConfigGrid>
 
 <Canvas {config} />

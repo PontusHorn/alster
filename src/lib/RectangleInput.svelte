@@ -3,10 +3,8 @@
 </script>
 
 <script lang="ts">
-	import ColorInput from '$lib/ColorInput.svelte';
 	import ExpressionInput from '$lib/ExpressionInput.svelte';
 	import FormGrid from '$lib/FormGrid.svelte';
-	import FormGroup from '$lib/FormGroup.svelte';
 	import type { Rectangle } from '$lib/types';
 
 	const index = counter++;
@@ -30,7 +28,3 @@
 	<label for="RectangleInput-rotation-{index}">Rotation:</label>
 	<ExpressionInput id="RectangleInput-rotation-{index}" bind:value={shape.rotation} />
 </FormGrid>
-
-<FormGroup>
-	<ColorInput bind:color={shape.color} />
-</FormGroup>
