@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BackgroundInput from '$lib/BackgroundInput.svelte';
+	import CanvasInput from '$lib/CanvasInput.svelte';
 	import Canvas from '$lib/Canvas.svelte';
 	import ConfigGrid from '$lib/ConfigGrid.svelte';
 	import { makeHsl, makeRgb } from '$lib/drawing';
@@ -8,6 +8,8 @@
 	import type { Color, Config, Pattern } from '$lib/types';
 
 	let background: Color = makeRgb(238, 227, 185);
+	let width = 800;
+	let height = 600;
 	let pattern: Pattern = {
 		start: 0,
 		end: 120,
@@ -15,7 +17,7 @@
 			shape: {
 				type: 'ellipse',
 				color: makeHsl('$i * 122 - $time * 0.03', 80, 60),
-				x: toExp('($time / 10 + $i * 7) % 900 - 50'),
+				x: toExp('($time / 10 + $i * 7) % ($canvasWidth + 100) - 50'),
 				y: toExp('$i * 6 - 50'),
 				width: toExp(100),
 				height: toExp(40),
@@ -25,11 +27,11 @@
 	};
 
 	let config: Config;
-	$: config = { background, pattern };
+	$: config = { background, width, height, pattern };
 </script>
 
 <ConfigGrid>
-	<BackgroundInput bind:background />
+	<CanvasInput bind:background bind:width bind:height />
 	<PatternInput bind:pattern />
 </ConfigGrid>
 

@@ -1,5 +1,7 @@
 export type Config = {
 	background: Color;
+	width: number;
+	height: number;
 	pattern: Pattern | undefined;
 };
 

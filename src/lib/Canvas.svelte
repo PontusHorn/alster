@@ -24,7 +24,7 @@
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
 
-		const bindings: Bindings = { time };
+		const bindings: Bindings = { time, canvasWidth: config.width, canvasHeight: config.height };
 
 		drawBackground(ctx, bindings, config.background);
 
@@ -34,11 +34,4 @@
 	}
 </script>
 
-<canvas width="800" height="600" bind:this={canvas} />
-
-<style>
-	canvas {
-		width: 800px;
-		height: 600px;
-	}
-</style>
+<canvas width={config.width} height={config.height} bind:this={canvas} />
