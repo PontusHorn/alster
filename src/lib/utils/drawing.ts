@@ -1,15 +1,18 @@
-import { evaluate, toExp, type ToExpInput } from '$lib/expression';
+import { evaluate, toExp, type ToExpInput } from '$lib/utils/expression';
 import {
 	type Bindings,
 	type Ellipse,
 	type Color,
-	type Pattern,
+	type Iteration,
 	type Rectangle,
 	type Shape,
 	type Hsl,
 	type Rgb,
-	ColorType
+	ColorType,
+	type NumberedColor,
+	type Config
 } from '$lib/types';
+import { getIteration, getShape } from '$lib/utils/config';
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -18,18 +21,22 @@ export function drawBackground(ctx: Ctx, bindings: Bindings, color: Color) {
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
-export function drawPattern(ctx: Ctx, bindings: Bindings, pattern: Pattern) {
-	const { start, end, each } = pattern;
-	const name = 'i';
+export function drawIteration(ctx: Ctx, config: Config, bindings: Bindings, iteration: Iteration) {
+	const { name, start, end } = iteration;
 	for (bindings[name] = start; bindings[name] < end; bindings[name]++) {
-		if (each.shape) {
-			drawShape(ctx, bindings, each.shape);
+		for (const shapeId of iteration.shapeIds) {
+			const shape = getShape(config.shapes, shapeId);
+			drawShape(ctx, bindings, shape);
+		}
+		for (const iterationId of iteration.iterationIds) {
+			const childIteration = getIteration(config.iterations, iterationId);
+			drawIteration(ctx, config, bindings, childIteration);
 		}
 	}
 }
 
 function drawShape(ctx: Ctx, bindings: Bindings, shape: Shape) {
-	switch (shape.type) {
+	switch (shape.shapeType) {
 		case 'rectangle':
 			return drawRectangle(ctx, bindings, shape);
 		case 'ellipse':
@@ -73,7 +80,7 @@ function resetTransform(ctx: Ctx) {
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
-export function isShapeType(type: unknown): type is Shape['type'] {
+export function isShapeType(type: unknown): type is Shape['shapeType'] {
 	return type === 'rectangle' || type === 'ellipse';
 }
 
@@ -133,12 +140,16 @@ export function makeColor(type: Color['type']): Color {
 		case ColorType.Random:
 			return { type: ColorType.Random };
 		case ColorType.Numbered:
-			return { type: ColorType.Numbered, value: toExp(0) };
+			return makeNumberedColor(0);
 		case ColorType.Hsl:
 			return makeHsl(0, 0, 0);
 		case ColorType.Rgb:
 			return makeRgb(0, 0, 0);
 	}
+}
+
+export function makeNumberedColor(value: ToExpInput): NumberedColor {
+	return { type: ColorType.Numbered, value: toExp(value) };
 }
 
 export function makeHsl(hue: ToExpInput, saturation: ToExpInput, lightness: ToExpInput): Hsl {
@@ -167,7 +178,7 @@ function clamp(value: number, min: number, max: number) {
 	return Math.max(min, Math.min(max, value));
 }
 
-export function convertShape(shape: Shape, type: Shape['type']): Shape {
+export function convertShape(shape: Shape, type: Shape['shapeType']): Shape {
 	switch (type) {
 		case 'rectangle':
 			return rectangleFromShape(shape);
@@ -179,13 +190,13 @@ export function convertShape(shape: Shape, type: Shape['type']): Shape {
 function rectangleFromShape(shape: Shape): Rectangle {
 	return {
 		...shape,
-		type: 'rectangle'
+		shapeType: 'rectangle'
 	};
 }
 
 function ellipseFromShape(shape: Shape): Ellipse {
 	return {
 		...shape,
-		type: 'ellipse'
+		shapeType: 'ellipse'
 	};
 }

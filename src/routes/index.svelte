@@ -1,38 +1,26 @@
 <script lang="ts">
-	import CanvasInput from '$lib/CanvasInput.svelte';
 	import Canvas from '$lib/Canvas.svelte';
-	import ConfigGrid from '$lib/ConfigGrid.svelte';
-	import { makeHsl, makeRgb } from '$lib/drawing';
-	import { toExp } from '$lib/expression';
-	import PatternInput from '$lib/PatternInput.svelte';
-	import type { Color, Config, Pattern } from '$lib/types';
-
-	let background: Color = makeRgb(238, 227, 185);
-	let width = 800;
-	let height = 600;
-	let pattern: Pattern = {
-		start: 0,
-		end: 120,
-		each: {
-			shape: {
-				type: 'ellipse',
-				color: makeHsl('$i * 122 - $time * 0.03', 80, 60),
-				x: toExp('($time / 10 + $i * 7) % ($canvasWidth + 100) - 50'),
-				y: toExp('$i * 6 - 50'),
-				width: toExp(100),
-				height: toExp(40),
-				rotation: toExp('$i * 0.06 + $time / 1000')
-			}
-		}
-	};
-
-	let config: Config;
-	$: config = { background, width, height, pattern };
+	import CanvasInput from '$lib/CanvasInput.svelte';
+	import IterationsPanel from '$lib/IterationsPanel.svelte';
+	import Stack from '$lib/ui/Stack.svelte';
+	import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '$lib/ui/Tabs';
 </script>
 
-<ConfigGrid>
-	<CanvasInput bind:background bind:width bind:height />
-	<PatternInput bind:pattern />
-</ConfigGrid>
+<Stack>
+	<TabGroup>
+		<TabList>
+			<Tab>Canvas</Tab>
+			<Tab>Content</Tab>
+		</TabList>
+		<TabPanels>
+			<TabPanel>
+				<CanvasInput />
+			</TabPanel>
+			<TabPanel>
+				<IterationsPanel />
+			</TabPanel>
+		</TabPanels>
+	</TabGroup>
 
-<Canvas {config} />
+	<Canvas />
+</Stack>

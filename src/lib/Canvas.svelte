@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import { drawBackground, drawPattern } from '$lib/drawing';
-	import type { Bindings, Config } from '$lib/types';
+	import { config, iterations, rootConfig } from '$lib/stores';
+	import type { Bindings } from '$lib/types';
+	import { getIteration } from '$lib/utils/config';
+	import { drawBackground, drawIteration } from '$lib/utils/drawing';
 	import { onDestroy, onMount } from 'svelte';
-
-	export let config: Config;
 
 	let canvas: HTMLCanvasElement;
 	let rafHandle: number;
@@ -24,14 +24,25 @@
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
 
-		const bindings: Bindings = { time, canvasWidth: config.width, canvasHeight: config.height };
+		const bindings: Bindings = {
+			time,
+			canvasWidth: $rootConfig.width,
+			canvasHeight: $rootConfig.height
+		};
 
-		drawBackground(ctx, bindings, config.background);
+		drawBackground(ctx, bindings, $rootConfig.background);
 
-		if (config.pattern) {
-			drawPattern(ctx, bindings, config.pattern);
+		for (const iterationId of $rootConfig.iterationIds) {
+			const iteration = getIteration($iterations, iterationId);
+			drawIteration(ctx, $config, bindings, iteration);
 		}
 	}
 </script>
 
-<canvas width={config.width} height={config.height} bind:this={canvas} />
+<canvas width={$rootConfig.width} height={$rootConfig.height} bind:this={canvas} />
+
+<style>
+	canvas {
+		align-self: start;
+	}
+</style>

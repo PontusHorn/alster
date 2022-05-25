@@ -1,4 +1,4 @@
-import { evaluate, exp, op, ref, stringToExpression, val } from '$lib/expression';
+import { evaluate, exp, op, ref, stringToExpression, val } from '$lib/utils/expression';
 import { describe, expect, it } from 'vitest';
 
 describe('evaluate', () => {

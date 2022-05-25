@@ -4,29 +4,32 @@
 
 <script lang="ts">
 	import ColorInput from '$lib/ColorInput.svelte';
-	import FormGrid from '$lib/FormGrid.svelte';
-	import FormGroup from '$lib/FormGroup.svelte';
-	import type { Color } from '$lib/types';
+	import { rootConfig } from '$lib/stores';
+	import FormGrid from '$lib/ui/FormGrid.svelte';
+	import FormGroup from '$lib/ui/FormGroup.svelte';
+	import Stack from '$lib/ui/Stack.svelte';
 
 	const index = counter++;
-
-	export let background: Color;
-	export let width: number;
-	export let height: number;
 </script>
 
-<FormGroup title="Canvas" open>
+<Stack --direction="row" --spacing="var(--spacingMedium)">
 	<FormGroup title="Size">
 		<FormGrid>
 			<label for="PatternInput-width-{index}">Width:</label>
-			<input id="PatternInput-width-{index}" type="number" bind:value={width} />
+			<input id="PatternInput-width-{index}" type="number" bind:value={$rootConfig.width} />
 
 			<label for="PatternInput-height-{index}">Height:</label>
-			<input id="PatternInput-height-{index}" type="number" bind:value={height} />
+			<input id="PatternInput-height-{index}" type="number" bind:value={$rootConfig.height} />
 		</FormGrid>
 	</FormGroup>
 
 	<FormGroup title="Color">
-		<ColorInput bind:color={background} />
+		<ColorInput bind:color={$rootConfig.background} />
 	</FormGroup>
-</FormGroup>
+</Stack>
+
+<style>
+	input {
+		width: 10em;
+	}
+</style>

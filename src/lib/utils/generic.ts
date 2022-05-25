@@ -13,3 +13,7 @@ export function getErrorMessage(error: unknown): string {
 
 	return String(error);
 }
+
+export function randomId() {
+	return Math.random().toString(36).slice(2);
+}

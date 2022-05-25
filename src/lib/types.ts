@@ -1,24 +1,33 @@
 export type Config = {
+	root: RootConfig;
+	iterations: Iteration[];
+	shapes: Shape[];
+};
+
+export type RootConfig = {
 	background: Color;
 	width: number;
 	height: number;
-	pattern: Pattern | undefined;
-};
-
-export type Pattern = {
-	start: number;
-	end: number;
-	each: Iteration;
+	/** Iterations that are enabled at the root level */
+	iterationIds: Iteration['id'][];
 };
 
 export type Iteration = {
-	shape: Shape;
+	type: 'iteration';
+	id: string;
+	name: string;
+	start: number;
+	end: number;
+	shapeIds: Shape['id'][];
+	iterationIds: Iteration['id'][];
 };
 
 export type Shape = Rectangle | Ellipse;
 
 export type Rectangle = {
-	type: 'rectangle';
+	type: 'shape';
+	shapeType: 'rectangle';
+	id: string;
 	color: Color;
 	x: Expression;
 	y: Expression;
@@ -28,7 +37,9 @@ export type Rectangle = {
 };
 
 export type Ellipse = {
-	type: 'ellipse';
+	type: 'shape';
+	shapeType: 'ellipse';
+	id: string;
 	color: Color;
 	x: Expression;
 	y: Expression;

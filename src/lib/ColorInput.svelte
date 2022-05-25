@@ -3,12 +3,12 @@
 </script>
 
 <script lang="ts">
-	import { isColorType, makeColor } from '$lib/drawing';
-	import FormGrid from '$lib/FormGrid.svelte';
 	import HslInput from '$lib/HslInput.svelte';
 	import NumberedColorInput from '$lib/NumberedColorInput.svelte';
 	import RgbInput from '$lib/RgbInput.svelte';
 	import { ColorType, type Color } from '$lib/types';
+	import FormGrid from '$lib/ui/FormGrid.svelte';
+	import { isColorType, makeColor } from '$lib/utils/drawing';
 
 	const index = counter++;
 
@@ -31,18 +31,18 @@
 		<option value={ColorType.Numbered}>Numbered color</option>
 		<option value={ColorType.Random}>Random color</option>
 	</select>
-</FormGrid>
 
-{#if color.type === ColorType.Hsl}
-	<HslInput bind:color />
-{:else if color.type === ColorType.Rgb}
-	<RgbInput bind:color />
-{:else if color.type === ColorType.Hex}
-	<input type="color" bind:value={color.hex} />
-{:else if color.type === ColorType.Numbered}
-	<NumberedColorInput bind:color />
-{:else if color.type === ColorType.Random}
-	<!-- No inputs -->
-{:else}
-	Invalid color
-{/if}
+	{#if color.type === ColorType.Hsl}
+		<HslInput bind:color />
+	{:else if color.type === ColorType.Rgb}
+		<RgbInput bind:color />
+	{:else if color.type === ColorType.Hex}
+		<input type="color" bind:value={color.hex} />
+	{:else if color.type === ColorType.Numbered}
+		<NumberedColorInput bind:color />
+	{:else if color.type === ColorType.Random}
+		<!-- No inputs -->
+	{:else}
+		Invalid color
+	{/if}
+</FormGrid>

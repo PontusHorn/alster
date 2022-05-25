@@ -4,12 +4,13 @@
 
 <script lang="ts">
 	import ColorInput from '$lib/ColorInput.svelte';
-	import { convertShape, isShapeType } from '$lib/drawing';
 	import EllipseInput from '$lib/EllipseInput.svelte';
-	import FormGrid from '$lib/FormGrid.svelte';
-	import FormGroup from '$lib/FormGroup.svelte';
 	import RectangleInput from '$lib/RectangleInput.svelte';
 	import type { Shape } from '$lib/types';
+	import FormGrid from '$lib/ui/FormGrid.svelte';
+	import FormSubGroup from '$lib/ui/FormSubGroup.svelte';
+	import Stack from '$lib/ui/Stack.svelte';
+	import { convertShape, isShapeType } from '$lib/utils/drawing';
 
 	const index = counter++;
 
@@ -24,24 +25,26 @@
 	}
 </script>
 
-<FormGroup title="Shape">
-	<FormGrid>
-		<label for="ShapeInput-shape-{index}" class="label-shape">Shape type:</label>
-		<select id="ShapeInput-shape-{index}" value={shape.type} on:change={onChangeShapeType}>
-			<option value="rectangle">Rectangle</option>
-			<option value="ellipse">Ellipse</option>
-		</select>
-	</FormGrid>
+<Stack --direction="column">
+	<FormSubGroup title="Shape">
+		<FormGrid>
+			<label for="ShapeInput-shape-{index}" class="label-shape">Shape type:</label>
+			<select id="ShapeInput-shape-{index}" value={shape.shapeType} on:change={onChangeShapeType}>
+				<option value="rectangle">Rectangle</option>
+				<option value="ellipse">Ellipse</option>
+			</select>
 
-	{#if shape.type === 'rectangle'}
-		<RectangleInput bind:shape />
-	{:else if shape.type === 'ellipse'}
-		<EllipseInput bind:shape />
-	{:else}
-		Invalid shape
-	{/if}
-</FormGroup>
+			{#if shape.shapeType === 'rectangle'}
+				<RectangleInput bind:shape />
+			{:else if shape.shapeType === 'ellipse'}
+				<EllipseInput bind:shape />
+			{:else}
+				Invalid shape
+			{/if}
+		</FormGrid>
+	</FormSubGroup>
 
-<FormGroup title="Color">
-	<ColorInput bind:color={shape.color} />
-</FormGroup>
+	<FormSubGroup title="Color">
+		<ColorInput bind:color={shape.color} />
+	</FormSubGroup>
+</Stack>

@@ -3,10 +3,7 @@
 </script>
 
 <script lang="ts">
-	import ColorInput from '$lib/ColorInput.svelte';
 	import ExpressionInput from '$lib/ExpressionInput.svelte';
-	import FormGrid from '$lib/FormGrid.svelte';
-	import FormGroup from '$lib/FormGroup.svelte';
 	import type { Ellipse } from '$lib/types';
 
 	const index = counter++;
@@ -14,19 +11,17 @@
 	export let shape: Ellipse;
 </script>
 
-<FormGrid>
-	<label for="EllipseInput-x-{index}">X:</label>
-	<ExpressionInput id="EllipseInput-x-{index}" bind:value={shape.x} />
+<label for="EllipseInput-x-{index}">X:</label>
+<ExpressionInput id="EllipseInput-x-{index}" bind:value={shape.x} />
 
-	<label for="EllipseInput-y-{index}">Y:</label>
-	<ExpressionInput id="EllipseInput-y-{index}" bind:value={shape.y} />
+<label for="EllipseInput-y-{index}">Y:</label>
+<ExpressionInput id="EllipseInput-y-{index}" bind:value={shape.y} />
 
-	<label for="EllipseInput-width-{index}">Width:</label>
-	<ExpressionInput id="EllipseInput-width-{index}" bind:value={shape.width} />
+<label for="EllipseInput-width-{index}">Width:</label>
+<ExpressionInput id="EllipseInput-width-{index}" bind:value={shape.width} />
 
-	<label for="EllipseInput-height-{index}">Height:</label>
-	<ExpressionInput id="EllipseInput-height-{index}" bind:value={shape.height} />
+<label for="EllipseInput-height-{index}">Height:</label>
+<ExpressionInput id="EllipseInput-height-{index}" bind:value={shape.height} />
 
-	<label for="EllipseInput-rotation-{index}">Rotation:</label>
-	<ExpressionInput id="EllipseInput-rotation-{index}" bind:value={shape.rotation} />
-</FormGrid>
+<label for="EllipseInput-rotation-{index}">Rotation:</label>
+<ExpressionInput id="EllipseInput-rotation-{index}" bind:value={shape.rotation} />

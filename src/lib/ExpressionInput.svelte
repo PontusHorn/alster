@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { expressionToString, isOpType, op, ref, stringToExpression, val } from '$lib/expression';
-	import { getErrorMessage } from '$lib/generic';
-
+	import { expressionToString, stringToExpression } from '$lib/utils/expression';
+	import { getErrorMessage } from '$lib/utils/generic';
 	import type { Expression } from '$lib/types';
 
 	export let id: string;
@@ -32,6 +31,11 @@
 <style>
 	.wrapper {
 		position: relative;
+	}
+
+	input {
+		box-sizing: border-box;
+		width: 100%;
 	}
 
 	.invalid {

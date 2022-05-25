@@ -35,5 +35,8 @@
 		"vitest": "^0.12.6",
 		"vitest-svelte-kit": "^0.0.6"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@rgossiaux/svelte-headlessui": "^1.0.1"
+	}
 }
