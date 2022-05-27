@@ -10,7 +10,8 @@ import {
 	type Rgb,
 	ColorType,
 	type NumberedColor,
-	type Config
+	type Config,
+	type Expression
 } from '$lib/types';
 import { getIteration, getShape } from '$lib/utils/config';
 
@@ -199,4 +200,50 @@ function ellipseFromShape(shape: Shape): Ellipse {
 		...shape,
 		shapeType: 'ellipse'
 	};
+}
+
+export function mapShapeExpressions<S extends Shape>(
+	shape: S,
+	callback: (expression: Expression) => Expression
+): S {
+	switch (shape.shapeType) {
+		case 'rectangle':
+		case 'ellipse':
+			return {
+				...shape,
+				color: mapColorExpressions(shape.color, callback),
+				x: callback(shape.x),
+				y: callback(shape.y),
+				width: callback(shape.width),
+				height: callback(shape.height),
+				rotation: callback(shape.rotation)
+			};
+	}
+}
+
+export function mapColorExpressions<C extends Color>(
+	color: C,
+	callback: (expression: Expression) => Expression
+): C {
+	switch (color.type) {
+		case ColorType.Hex:
+		case ColorType.Random:
+			return color;
+		case ColorType.Numbered:
+			return { ...color, value: callback(color.value) };
+		case ColorType.Hsl:
+			return {
+				...color,
+				hue: callback(color.hue),
+				saturation: callback(color.saturation),
+				lightness: callback(color.lightness)
+			};
+		case ColorType.Rgb:
+			return {
+				...color,
+				red: callback(color.red),
+				green: callback(color.green),
+				blue: callback(color.blue)
+			};
+	}
 }

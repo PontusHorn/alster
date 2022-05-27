@@ -200,3 +200,15 @@ function resolveOperator(
 			return left.value ** right.value;
 	}
 }
+
+export function mapExpressionTokens(
+	expression: Expression,
+	callback: (token: Token) => Token
+): Expression {
+	return {
+		...expression,
+		value: expression.value.map((part) =>
+			isExpression(part) ? mapExpressionTokens(part, callback) : callback(part)
+		)
+	};
+}
