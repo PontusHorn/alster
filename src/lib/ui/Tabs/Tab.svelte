@@ -16,7 +16,8 @@
 		border: var(--borderWidthThick) solid transparent;
 		border-bottom: none;
 		cursor: pointer;
-		letter-spacing: 0.03em;
+		font-weight: 600;
+		letter-spacing: var(--letterSpacingHeading);
 		line-height: 1;
 		padding: var(--spacingMedium);
 		transition: all 0.15s ease-in-out;

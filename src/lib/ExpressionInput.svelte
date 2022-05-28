@@ -34,7 +34,8 @@
 	}
 
 	input {
-		box-sizing: border-box;
+		font-family: var(--monospaceFont);
+		font-weight: 350;
 		width: 100%;
 	}
 
