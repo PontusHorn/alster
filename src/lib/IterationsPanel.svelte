@@ -35,7 +35,7 @@
 			title="Edit {shape.shapeType}"
 			hidden={$editedItem?.type !== 'shape' || $editedItem.id !== shape.id}
 		>
-			<ShapeInput {shape} />
+			<ShapeInput bind:shape />
 		</FormGroup>
 	{/each}
 </Stack>
