@@ -25,7 +25,7 @@
 			title="Edit {iteration.name}"
 			hidden={$editedItem?.type !== 'iteration' || $editedItem.id !== iteration.id}
 		>
-			<IterationInput {iteration} />
+			<IterationInput iterationId={iteration.id} />
 		</FormGroup>
 	{/each}
 

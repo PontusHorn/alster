@@ -15,12 +15,9 @@
 
 	const index = counter++;
 
-	export let iteration: Iteration;
-
-	function updateIteration(iteration: Iteration) {
-		const index = $iterations.findIndex(({ id }) => id === iteration.id);
-		$iterations[index] = iteration;
-	}
+	export let iterationId: Iteration['id'];
+	$: iterationIndex = $iterations.findIndex(({ id }) => id === iterationId);
+	$: iteration = $iterations[iterationIndex];
 
 	function updateShape(shape: Shape) {
 		const index = $shapes.findIndex(({ id }) => id === shape.id);
@@ -29,8 +26,7 @@
 
 	function updateName(newName: string) {
 		const oldName = iteration.name;
-
-		updateIteration({ ...iteration, name: newName });
+		$iterations[iterationIndex].name = newName;
 
 		/* We also need to update any refs that refer to the old iteration name in any expressions of
 		the sub-iterations or shapes for this iteration. */
@@ -80,7 +76,7 @@
 		};
 
 		shapes.set([...$shapes, shape]);
-		iteration.shapeIds = [...iteration.shapeIds, shape.id];
+		$iterations[iterationIndex].shapeIds = [...iteration.shapeIds, shape.id];
 	}
 
 	function addChildIteration() {
@@ -94,8 +90,8 @@
 			iterationIds: []
 		};
 
-		iterations.set([...$iterations, childIteration]);
-		iteration.iterationIds = [...iteration.iterationIds, childIteration.id];
+		$iterations = [...$iterations, childIteration];
+		$iterations[iterationIndex].iterationIds = [...iteration.iterationIds, childIteration.id];
 	}
 </script>
 
@@ -112,16 +108,14 @@
 	<input
 		id="IterationInput-start-{index}"
 		type="number"
-		value={iteration.start}
-		on:input={(e) => updateIteration({ ...iteration, start: e.currentTarget.valueAsNumber })}
+		bind:value={$iterations[iterationIndex].start}
 	/>
 
 	<label for="IterationInput-end-{index}">End:</label>
 	<input
 		id="IterationInput-end-{index}"
 		type="number"
-		value={iteration.end}
-		on:input={(e) => updateIteration({ ...iteration, end: e.currentTarget.valueAsNumber })}
+		bind:value={$iterations[iterationIndex].end}
 	/>
 </FormGrid>
 
