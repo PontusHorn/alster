@@ -1,10 +1,14 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-  xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(18 1) rotate(22)">
-    <rect width="6" height="5" rx="1" fill="#F18CB0"/>
-    <rect y="5" width="6" height="19" fill="#F3B411"/>
-    <path d="M0 24H6L3 31L0 24Z" fill="#F4DA97"/>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.48477 27.5355L3 31L1.51523 27.5355L4.48477 27.5355Z" fill="#454545"/>
-    <rect y="3.68263" width="6" height="2.31736" fill="#D9D9D9"/>
-  </g>
+<svg width="24" height="24"
+    xmlns="http://www.w3.org/2000/svg">
+    <title>Edit</title>
+    <defs>
+        <symbol id="Edit" viewBox="0 0 24 24">
+            <g transform="translate(3, 3)" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="10.7473996" y1="17.4429051" x2="18" y2="17.4429051" />
+                <path d="M9.7800071,0.794792587 C10.5556498,-0.132213323 11.949987,-0.268144478 12.8962256,0.491732963 C12.9485416,0.532957985 14.6294799,1.83878843 14.6294799,1.83878843 C15.6689776,2.46719147 15.9919725,3.80310504 15.3493946,4.8225887 C15.3152754,4.877184 5.81194644,16.7644749 5.81194644,16.7644749 C5.49577537,17.1588981 5.01583223,17.3917638 4.50290722,17.3973347 L0.863527997,17.4430165 L0.0435303654,13.9723153 C-0.0713375414,13.4843002 0.0435303654,12.9717729 0.359701436,12.5773497 L9.7800071,0.794792587 Z" />
+                <line x1="8.02082217" y1="3.00088838" x2="13.4730672" y2="7.18801364" />
+            </g>
+        </symbol>
+    </defs>
+    <use href="#Edit" />
 </svg>

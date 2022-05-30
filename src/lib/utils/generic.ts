@@ -17,3 +17,7 @@ export function getErrorMessage(error: unknown): string {
 export function randomId() {
 	return Math.random().toString(36).slice(2);
 }
+
+export function without<T>(array: T[], ...values: T[]): T[] {
+	return array.filter((value) => !values.includes(value));
+}

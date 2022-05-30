@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { assets } from '$app/paths';
+	import Icon, { type IconName } from '$lib/ui/Icon.svelte';
 
-	export let icon: 'Edit';
+	export let icon: IconName;
 	export let label: string;
 	export let controls: string | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
 </script>
 
 <button on:click aria-label={label} aria-controls={controls} aria-expanded={expanded}>
-	<img src="{assets}/icons/{icon}.svg" alt="" />
+	<Icon {icon} />
 </button>
 
 <style>
@@ -27,15 +27,11 @@
 
 	button[aria-expanded='true'] {
 		background: var(--flavorColor);
+		color: white;
 	}
 
 	button:hover,
 	button:focus-visible {
 		outline-color: var(--secondaryForeground);
-	}
-
-	img {
-		width: 24px;
-		height: 24px;
 	}
 </style>

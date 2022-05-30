@@ -3,20 +3,44 @@
 	import IterationTree from '$lib/IterationTree.svelte';
 	import ShapeInput from '$lib/ShapeInput.svelte';
 	import { editedItem, iterations, rootConfig, shapes } from '$lib/stores';
+	import type { Iteration } from '$lib/types';
+	import Button from '$lib/ui/Button.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';
 	import Step from '$lib/ui/Step.svelte';
 	import Steps from '$lib/ui/Steps.svelte';
-	import { getEditIterationId, getEditShapeId, getIteration, getShape } from '$lib/utils/config';
+	import { getEditIterationId, getEditShapeId } from '$lib/utils/config';
+	import { randomId } from '$lib/utils/generic';
+
+	function addIteration() {
+		const childIteration: Iteration = {
+			type: 'iteration',
+			id: randomId(),
+			name: 'iteration',
+			start: 0,
+			end: 10,
+			shapeIds: [],
+			iterationIds: []
+		};
+
+		$iterations = [...$iterations, childIteration];
+		$rootConfig.iterationIds = [...$rootConfig.iterationIds, childIteration.id];
+	}
 </script>
 
 <Stack --direction="row" --spacing="var(--spacingMedium)">
 	<FormGroup title="Steps">
-		<Steps>
-			{#each $rootConfig.iterationIds as iterationId}
-				<Step><IterationTree iteration={getIteration($iterations, iterationId)} /></Step>
-			{/each}
-		</Steps>
+		<Stack --direction="column">
+			{#if $rootConfig.iterationIds.length}
+				<Steps>
+					{#each $rootConfig.iterationIds as iterationId}
+						<Step><IterationTree parent="root" {iterationId} /></Step>
+					{/each}
+				</Steps>
+			{/if}
+
+			<Button on:click={addIteration}>Add iteration</Button>
+		</Stack>
 	</FormGroup>
 
 	{#each $iterations as iteration}
