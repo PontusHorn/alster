@@ -1,41 +1,62 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import { config, iterations, rootConfig } from '$lib/stores';
-	import type { Bindings } from '$lib/types';
-	import { getIteration } from '$lib/utils/config';
-	import { drawBackground, drawIteration } from '$lib/utils/drawing';
+	import { config, rootConfig } from '$lib/stores';
+	import type { Config, Expression } from '$lib/types';
+	import { drawCanvas, getColorExpressions, getShapeExpressions } from '$lib/utils/drawing';
+	import { isExpression, isRef } from '$lib/utils/expression';
 	import { onDestroy, onMount } from 'svelte';
 
-	let canvas: HTMLCanvasElement;
-	let rafHandle: number;
+	let canvas: HTMLCanvasElement | undefined;
+	let rafHandle: number | undefined;
 
-	onMount(() => {
-		rafHandle = window.requestAnimationFrame(draw);
-	});
+	$: ctx = canvas?.getContext('2d');
+	$: updateEveryFrame = configReferencesTime($config);
+
+	$: if (ctx && updateEveryFrame && !rafHandle) {
+		rafHandle = window.requestAnimationFrame(onFrame);
+	}
+
+	$: if (ctx) {
+		onConfigChanged(ctx, $config);
+	}
 
 	onDestroy(() => {
-		if (browser) {
+		if (browser && rafHandle !== undefined) {
 			window.cancelAnimationFrame(rafHandle);
 		}
 	});
 
-	function draw(time: number) {
-		rafHandle = window.requestAnimationFrame(draw);
-		const ctx = canvas.getContext('2d');
-		if (!ctx) return;
+	function onFrame(time: number) {
+		rafHandle = updateEveryFrame ? window.requestAnimationFrame(onFrame) : undefined;
 
-		const bindings: Bindings = {
-			time,
-			canvasWidth: $rootConfig.width,
-			canvasHeight: $rootConfig.height
-		};
-
-		drawBackground(ctx, bindings, $rootConfig.background);
-
-		for (const iterationId of $rootConfig.iterationIds) {
-			const iteration = getIteration($iterations, iterationId);
-			drawIteration(ctx, $config, bindings, iteration);
+		// Draw the canvas on every frame if the time is referenced in the config.
+		if (ctx && configReferencesTime($config)) {
+			drawCanvas(ctx, $config, time);
 		}
+	}
+
+	function onConfigChanged(ctx: CanvasRenderingContext2D, config: Config) {
+		// If the config does *not* reference the time, we only need to update on config changes.
+		if (!configReferencesTime(config)) {
+			const time = 0;
+			drawCanvas(ctx, config, time);
+		}
+	}
+
+	function configReferencesTime(config: Config): boolean {
+		const expressions = [
+			...getColorExpressions(config.root.background),
+			...config.shapes.flatMap(getShapeExpressions)
+		];
+		return expressions.some(expressionReferencesTime);
+	}
+
+	function expressionReferencesTime(expression: Expression): boolean {
+		return expression.value.some(
+			(part) =>
+				(isExpression(part) && expressionReferencesTime(part)) ||
+				(isRef(part) && part.name === 'time')
+		);
 	}
 </script>
 

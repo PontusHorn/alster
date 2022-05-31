@@ -17,6 +17,21 @@ import { getIteration, getShape } from '$lib/utils/config';
 
 type Ctx = CanvasRenderingContext2D;
 
+export function drawCanvas(ctx: Ctx, config: Config, time: number): void {
+	const bindings: Bindings = {
+		time,
+		canvasWidth: config.root.width,
+		canvasHeight: config.root.height
+	};
+
+	drawBackground(ctx, bindings, config.root.background);
+
+	for (const iterationId of config.root.iterationIds) {
+		const iteration = getIteration(config.iterations, iterationId);
+		drawIteration(ctx, config, bindings, iteration);
+	}
+}
+
 export function drawBackground(ctx: Ctx, bindings: Bindings, color: Color) {
 	ctx.fillStyle = getColor(color, bindings);
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -221,6 +236,21 @@ export function mapShapeExpressions<S extends Shape>(
 	}
 }
 
+export function getShapeExpressions(shape: Shape): Expression[] {
+	switch (shape.shapeType) {
+		case 'rectangle':
+		case 'ellipse':
+			return [
+				...getColorExpressions(shape.color),
+				shape.x,
+				shape.y,
+				shape.width,
+				shape.height,
+				shape.rotation
+			];
+	}
+}
+
 export function mapColorExpressions<C extends Color>(
 	color: C,
 	callback: (expression: Expression) => Expression
@@ -245,5 +275,19 @@ export function mapColorExpressions<C extends Color>(
 				green: callback(color.green),
 				blue: callback(color.blue)
 			};
+	}
+}
+
+export function getColorExpressions(color: Color): Expression[] {
+	switch (color.type) {
+		case ColorType.Hex:
+		case ColorType.Random:
+			return [];
+		case ColorType.Numbered:
+			return [color.value];
+		case ColorType.Hsl:
+			return [color.hue, color.saturation, color.lightness];
+		case ColorType.Rgb:
+			return [color.red, color.green, color.blue];
 	}
 }
