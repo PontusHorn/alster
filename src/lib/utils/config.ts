@@ -1,4 +1,19 @@
-import type { Iteration, Shape } from '$lib/types';
+import { ColorType, type Iteration, type Shape } from '$lib/types';
+import { toExp } from '$lib/utils/expression';
+import { randomId } from '$lib/utils/generic';
+
+export function makeIteration(iteration: Partial<Iteration> = {}): Iteration {
+	return {
+		type: 'iteration',
+		id: randomId(),
+		name: 'iteration',
+		start: 0,
+		end: 10,
+		shapeIds: [],
+		iterationIds: [],
+		...iteration
+	};
+}
 
 export function getIteration(iterations: Iteration[], id: string): Iteration {
 	const iteration = iterations.find((iteration) => iteration.id === id);
@@ -48,6 +63,21 @@ function getReferencedShapes(iterations: Iteration[], shapes: Shape[]): Shape[] 
 
 export function getEditIterationId(iterationId: string): string {
 	return `edit-iteration-${iterationId}`;
+}
+
+export function makeShape(shape: Partial<Shape> = {}): Shape {
+	return {
+		type: 'shape',
+		shapeType: 'rectangle',
+		id: randomId(),
+		color: { type: ColorType.Hex, hex: '#000000' },
+		x: toExp(0),
+		y: toExp(0),
+		width: toExp(100),
+		height: toExp(100),
+		rotation: toExp(0),
+		...shape
+	};
 }
 
 export function getShape(shapes: Shape[], id: string): Shape {

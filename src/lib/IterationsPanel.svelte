@@ -3,27 +3,18 @@
 	import IterationTree from '$lib/IterationTree.svelte';
 	import ShapeInput from '$lib/ShapeInput.svelte';
 	import { editedItem, iterations, rootConfig, shapes } from '$lib/stores';
-	import type { Iteration } from '$lib/types';
 	import Button from '$lib/ui/Button.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';
 	import Step from '$lib/ui/Step.svelte';
 	import Steps from '$lib/ui/Steps.svelte';
-	import { getEditIterationId, getEditShapeId } from '$lib/utils/config';
-	import { randomId } from '$lib/utils/generic';
+	import { getEditIterationId, getEditShapeId, makeIteration } from '$lib/utils/config';
 
 	function addIteration() {
-		const childIteration: Iteration = {
-			type: 'iteration',
-			id: randomId(),
-			name: 'iteration',
-			start: 0,
-			end: 10,
-			shapeIds: [],
-			iterationIds: []
-		};
+		const childIteration = makeIteration();
 
 		$iterations = [...$iterations, childIteration];
+		$editedItem = childIteration;
 		$rootConfig.iterationIds = [...$rootConfig.iterationIds, childIteration.id];
 	}
 </script>

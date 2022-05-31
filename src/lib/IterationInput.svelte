@@ -3,15 +3,14 @@
 </script>
 
 <script lang="ts">
-	import { iterations, shapes } from '$lib/stores';
-	import type { Expression, Iteration, Rectangle, Shape } from '$lib/types';
+	import { editedItem, iterations, shapes } from '$lib/stores';
+	import type { Expression, Iteration, Shape } from '$lib/types';
 	import Button from '$lib/ui/Button.svelte';
 	import FormGrid from '$lib/ui/FormGrid.svelte';
 	import HorizontalDivider from '$lib/ui/HorizontalDivider.svelte';
-	import { getIteration, getShape } from '$lib/utils/config';
+	import { getIteration, getShape, makeIteration, makeShape } from '$lib/utils/config';
 	import { makeNumberedColor, mapShapeExpressions } from '$lib/utils/drawing';
 	import { isRef, mapExpressionTokens, toExp } from '$lib/utils/expression';
-	import { randomId } from '$lib/utils/generic';
 
 	const index = counter++;
 
@@ -63,34 +62,28 @@
 	}
 
 	function addShape() {
-		const shape: Rectangle = {
-			type: 'shape',
-			shapeType: 'rectangle',
-			id: randomId(),
+		const shape = makeShape({
 			color: makeNumberedColor(`$${iteration.name}`),
 			x: toExp(`$${iteration.name} * 10`),
-			y: toExp(`$${iteration.name} * 10`),
-			width: toExp(100),
-			height: toExp(100),
-			rotation: toExp(0)
-		};
+			y: toExp(`$${iteration.name} * 10`)
+		});
 
-		shapes.set([...$shapes, shape]);
+		$shapes = [...$shapes, shape];
+		$editedItem = shape;
 		$iterations[iterationIndex].shapeIds = [...iteration.shapeIds, shape.id];
 	}
 
 	function addChildIteration() {
-		const childIteration: Iteration = {
-			type: 'iteration',
-			id: randomId(),
+		const childIteration = makeIteration({
 			name: `${iteration.name}Child`,
 			start: 0,
 			end: 10,
 			shapeIds: [],
 			iterationIds: []
-		};
+		});
 
 		$iterations = [...$iterations, childIteration];
+		$editedItem = childIteration;
 		$iterations[iterationIndex].iterationIds = [...iteration.iterationIds, childIteration.id];
 	}
 </script>
