@@ -12,7 +12,5 @@
 	export let color: NumberedColor;
 </script>
 
-<FormGrid>
-	<label for="NumberedColorInput-value-{index}">Value:</label>
-	<ExpressionInput id="NumberedColorInput-value-{index}" bind:value={color.value} />
-</FormGrid>
+<label for="NumberedColorInput-value-{index}">Value:</label>
+<ExpressionInput id="NumberedColorInput-value-{index}" bind:value={color.value} />
