@@ -5,7 +5,6 @@
 <script lang="ts">
 	import ExpressionInput from '$lib/ExpressionInput.svelte';
 	import type { NumberedColor } from '$lib/types';
-	import FormGrid from '$lib/ui/FormGrid.svelte';
 
 	const index = counter++;
 
