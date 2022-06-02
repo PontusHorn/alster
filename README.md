@@ -1,5 +1,7 @@
 # Alster
 
+NOTE: This project is still in early development and the current app is not representative of my intentions for it.
+
 A low-code generative art tool that aims to lower the technical and mathematical barrier to generative art and encourage creative expression.
 
 ## Developing
