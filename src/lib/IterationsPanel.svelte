@@ -2,7 +2,8 @@
 	import IterationInput from '$lib/IterationInput.svelte';
 	import IterationTree from '$lib/IterationTree.svelte';
 	import ShapeInput from '$lib/ShapeInput.svelte';
-	import { editedItem, iterations, rootConfig, shapes } from '$lib/stores';
+	import { iterations, rootConfig, shapes } from '$lib/stores/config';
+	import { editedItem } from '$lib/stores/ui';
 	import Button from '$lib/ui/Button.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';

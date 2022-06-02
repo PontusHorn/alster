@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import { config, rootConfig } from '$lib/stores';
+	import { config, rootConfig } from '$lib/stores/config';
 	import type { Config, Expression } from '$lib/types';
 	import { drawCanvas, getColorExpressions, getShapeExpressions } from '$lib/utils/drawing';
 	import { isExpression, isRef } from '$lib/utils/expression';
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 
 	let canvas: HTMLCanvasElement | undefined;
 	let rafHandle: number | undefined;

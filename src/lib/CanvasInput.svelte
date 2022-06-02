@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import ColorInput from '$lib/ColorInput.svelte';
-	import { rootConfig } from '$lib/stores';
+	import { rootConfig } from '$lib/stores/config';
 	import FormGrid from '$lib/ui/FormGrid.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { editedItem, iterations, rootConfig, shapes } from '$lib/stores';
+	import { iterations, rootConfig, shapes } from '$lib/stores/config';
+	import { editedItem } from '$lib/stores/ui';
 	import type { Iteration, Shape } from '$lib/types';
 	import Binding from '$lib/ui/Binding.svelte';
 	import IconButton from '$lib/ui/IconButton.svelte';

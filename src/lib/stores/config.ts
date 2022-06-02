@@ -64,9 +64,3 @@ export const config = derived(
 		shapes: $shapes
 	})
 );
-
-export type EditedItem = {
-	type: (Iteration | Shape)['type'];
-	id: string;
-};
-export const editedItem = writable<EditedItem | undefined>(undefined);
