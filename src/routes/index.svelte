@@ -6,6 +6,10 @@
 	import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '$lib/ui/Tabs';
 </script>
 
+<svelte:head>
+	<title>Alster</title>
+</svelte:head>
+
 <Stack>
 	<TabGroup>
 		<TabList>
