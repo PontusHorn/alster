@@ -25,7 +25,7 @@
 	}
 </script>
 
-<Stack --direction="column">
+<Stack direction="column">
 	<FormSubGroup title="Shape">
 		<FormGrid>
 			<label for="ShapeInput-shape-{index}" class="label-shape">Shape type:</label>

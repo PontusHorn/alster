@@ -2,12 +2,11 @@
 
 <style>
 	button {
-		padding: var(--spacingSmall);
+		padding: var(--spacing-small);
 		border: none;
-		border-radius: var(--borderRadius);
-		background-color: var(--flavorBackground);
-		color: var(--primaryForeground);
-		font-size: var(--fontSizeSmall);
+		border-radius: var(--borderRadius-medium);
+		background-color: var(--color-flavorBackground);
+		color: var(--color-primaryForeground);
 		font-weight: 500;
 		line-height: 1;
 		text-align: center;

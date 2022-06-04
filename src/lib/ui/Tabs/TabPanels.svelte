@@ -10,8 +10,8 @@
 
 <style>
 	.panels {
-		background: var(--neutralBackground);
-		border-radius: var(--borderRadius);
-		border: var(--borderWidthThick) solid var(--flavorColor);
+		background: var(--color-neutralBackground);
+		border-radius: var(--borderRadius-medium);
+		border: var(--borderWidth-thick) solid var(--color-flavor);
 	}
 </style>

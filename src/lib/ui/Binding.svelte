@@ -2,6 +2,6 @@
 
 <style>
 	code {
-		background-color: var(--flavorBackground);
+		background-color: var(--color-flavorBackground);
 	}
 </style>

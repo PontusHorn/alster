@@ -18,20 +18,20 @@
 		background: transparent;
 		border: none;
 		border-radius: 50%;
-		color: var(--primaryForeground);
+		color: var(--color-primaryForeground);
 		cursor: pointer;
-		outline: var(--borderWidthThick) solid transparent;
-		padding: var(--spacingTiny);
+		outline: var(--borderWidth-thick) solid transparent;
+		padding: var(--spacing-tiny);
 		transition: background-color 0.15s ease-in-out, outline-color 0.15s ease-in-out;
 	}
 
 	button[aria-expanded='true'] {
-		background: var(--flavorColor);
+		background: var(--color-flavor);
 		color: white;
 	}
 
 	button:hover,
 	button:focus-visible {
-		outline-color: var(--secondaryForeground);
+		outline-color: var(--color-secondaryForeground);
 	}
 </style>

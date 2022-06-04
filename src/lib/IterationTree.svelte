@@ -53,7 +53,7 @@
 			>Create {iteration.end - iteration.start} <Binding>{iteration.name}</Binding></span
 		>
 		<span class="actions">
-			<Stack --direction="row" --justify="end" --spacing="var(--spacingTiny)">
+			<Stack direction="row" justify="end" spacing="tiny">
 				<IconButton
 					icon="Edit"
 					label="Edit {iteration.name}"
@@ -80,10 +80,10 @@
 						{@const shape = getShape($shapes, shapeId)}
 						{@const expanded = $editedItem?.type === 'shape' && $editedItem.id === shape.id}
 						<Step>
-							<Stack --direction="row" --justify="space-between">
+							<Stack direction="row" justify="space-between">
 								<span>Draw {shapeArticle(shape)} <b>{shape.shapeType}</b></span>
 								<span class="actions">
-									<Stack --justify="end" --spacing="var(--spacingTiny)">
+									<Stack direction="row" justify="end" spacing="tiny">
 										<IconButton
 											icon="Edit"
 											label="Edit {shape.shapeType}"
@@ -115,7 +115,7 @@
 			'stepsLabel actions'
 			'steps steps';
 		grid-template-columns: 1fr auto;
-		gap: var(--spacingSmall);
+		gap: var(--spacing-small);
 		justify-content: space-between;
 	}
 
@@ -125,7 +125,7 @@
 
 	.actions {
 		grid-area: actions;
-		padding-inline-end: var(--spacingSmall);
+		padding-inline-end: var(--spacing-small);
 	}
 
 	.stepsLabel {

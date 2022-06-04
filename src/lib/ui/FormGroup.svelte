@@ -7,7 +7,7 @@
 </script>
 
 <div class="wrapper" {id} {hidden}>
-	<Stack --spacing="var(--spacingMedium)">
+	<Stack direction="row" spacing="medium">
 		<h2>{title}</h2>
 		<div class="inner">
 			<slot />
@@ -17,11 +17,11 @@
 
 <style>
 	.wrapper {
-		padding: var(--spacingMedium);
+		padding: var(--spacing-medium);
 	}
 
 	h2 {
-		border-right: var(--borderWidthThick) solid var(--complementaryColor);
-		padding-right: var(--spacingSmall);
+		border-right: var(--borderWidth-thick) solid var(--color-complementary);
+		padding-right: var(--spacing-small);
 	}
 </style>

@@ -10,28 +10,28 @@
 
 <style>
 	div > :global(.tab) {
-		background: var(--neutralBackgroundDimmed);
-		border-top-left-radius: var(--borderRadius);
-		border-top-right-radius: var(--borderRadius);
-		border: var(--borderWidthThick) solid transparent;
+		background: var(--color-neutralBackgroundDimmed);
+		border-top-left-radius: var(--borderRadius-medium);
+		border-top-right-radius: var(--borderRadius-medium);
+		border: var(--borderWidth-thick) solid transparent;
 		border-bottom: none;
 		cursor: pointer;
 		font-weight: 600;
-		letter-spacing: var(--letterSpacingHeading);
+		letter-spacing: var(--letterSpacing-heading);
 		line-height: 1;
-		padding: var(--spacingMedium);
+		padding: var(--spacing-medium);
 		transition: all 0.15s ease-in-out;
 	}
 
 	div > :global(.tab:hover) {
-		background: var(--neutralBackground);
+		background: var(--color-neutralBackground);
 	}
 
 	div > :global(.selected) {
-		background: var(--neutralBackground);
-		border-color: var(--flavorColor);
-		margin-bottom: calc(0px - var(--borderWidthThick));
+		background: var(--color-neutralBackground);
+		border-color: var(--color-flavor);
+		margin-bottom: calc(0px - var(--borderWidth-thick));
 		opacity: 1;
-		padding-bottom: calc(var(--spacingMedium) + var(--borderWidthThick));
+		padding-bottom: calc(var(--spacing-medium) + var(--borderWidth-thick));
 	}
 </style>

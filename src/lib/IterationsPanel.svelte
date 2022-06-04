@@ -20,9 +20,9 @@
 	}
 </script>
 
-<Stack --direction="row" --spacing="var(--spacingMedium)">
+<Stack direction="row" spacing="medium">
 	<FormGroup title="Steps">
-		<Stack --direction="column">
+		<Stack direction="column">
 			{#if $rootConfig.iterationIds.length}
 				<Steps>
 					{#each $rootConfig.iterationIds as iterationId}

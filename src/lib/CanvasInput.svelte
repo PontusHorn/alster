@@ -12,7 +12,7 @@
 	const index = counter++;
 </script>
 
-<Stack --direction="row" --spacing="var(--spacingMedium)">
+<Stack direction="row" spacing="medium">
 	<FormGroup title="Size">
 		<FormGrid>
 			<label for="PatternInput-width-{index}">Width:</label>

@@ -7,7 +7,7 @@
 </script>
 
 <div {id} {hidden}>
-	<Stack --direction="column" --spacing="var(--spacingSmall)">
+	<Stack direction="column" spacing="small">
 		<h3>{title}</h3>
 		<div class="inner">
 			<slot />
@@ -17,9 +17,9 @@
 
 <style>
 	h3 {
-		background-color: var(--flavorBackground);
-		border-radius: var(--borderRadius);
+		background-color: var(--color-flavorBackground);
+		border-radius: var(--borderRadius-medium);
 		line-height: 1;
-		padding: var(--spacingSmall);
+		padding: var(--spacing-small);
 	}
 </style>

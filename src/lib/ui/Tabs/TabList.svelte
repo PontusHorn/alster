@@ -11,7 +11,7 @@
 <style>
 	.list {
 		display: flex;
-		gap: var(--spacingSmall);
-		padding: 0 var(--spacingMedium);
+		gap: var(--spacing-small);
+		padding: 0 var(--spacing-medium);
 	}
 </style>

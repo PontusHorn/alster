@@ -34,7 +34,7 @@
 	}
 
 	input {
-		font-family: var(--monospaceFont);
+		font-family: var(--font-monospace);
 		font-weight: 350;
 		width: 100%;
 	}
