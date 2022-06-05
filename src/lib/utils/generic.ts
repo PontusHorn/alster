@@ -6,6 +6,13 @@ export function isErrorWithMessage(error: unknown): error is { message: string }
 	return isObject(error) && 'message' in error && typeof error.message === 'string';
 }
 
+export function hasProperty<Obj, Prop extends string>(
+	obj: Obj,
+	prop: Prop
+): obj is Obj & Record<Prop, unknown> {
+	return isObject(obj) && Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
 export function getErrorMessage(error: unknown): string {
 	if (isErrorWithMessage(error)) {
 		return error.message;

@@ -2,7 +2,7 @@
 	import IterationInput from '$lib/IterationInput.svelte';
 	import IterationTree from '$lib/IterationTree.svelte';
 	import ShapeInput from '$lib/ShapeInput.svelte';
-	import { iterations, rootConfig, shapes } from '$lib/stores/config';
+	import { iterations, baseConfig, shapes } from '$lib/stores/currentWork';
 	import { editedItem } from '$lib/stores/ui';
 	import Button from '$lib/ui/Button.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
@@ -16,16 +16,16 @@
 
 		$iterations = [...$iterations, childIteration];
 		$editedItem = childIteration;
-		$rootConfig.iterationIds = [...$rootConfig.iterationIds, childIteration.id];
+		$baseConfig.iterationIds = [...$baseConfig.iterationIds, childIteration.id];
 	}
 </script>
 
 <Stack direction="row" spacing="medium">
 	<FormGroup title="Steps">
 		<Stack direction="column">
-			{#if $rootConfig.iterationIds.length}
+			{#if $baseConfig.iterationIds.length}
 				<Steps>
-					{#each $rootConfig.iterationIds as iterationId}
+					{#each $baseConfig.iterationIds as iterationId}
 						<Step><IterationTree parent="root" {iterationId} /></Step>
 					{/each}
 				</Steps>

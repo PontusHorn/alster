@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import ColorInput from '$lib/ColorInput.svelte';
-	import { rootConfig } from '$lib/stores/config';
+	import { baseConfig } from '$lib/stores/currentWork';
 	import FormGrid from '$lib/ui/FormGrid.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';
@@ -16,15 +16,15 @@
 	<FormGroup title="Size">
 		<FormGrid>
 			<label for="PatternInput-width-{index}">Width:</label>
-			<input id="PatternInput-width-{index}" type="number" bind:value={$rootConfig.width} />
+			<input id="PatternInput-width-{index}" type="number" bind:value={$baseConfig.width} />
 
 			<label for="PatternInput-height-{index}">Height:</label>
-			<input id="PatternInput-height-{index}" type="number" bind:value={$rootConfig.height} />
+			<input id="PatternInput-height-{index}" type="number" bind:value={$baseConfig.height} />
 		</FormGrid>
 	</FormGroup>
 
 	<FormGroup title="Color">
-		<ColorInput bind:color={$rootConfig.background} />
+		<ColorInput bind:color={$baseConfig.background} />
 	</FormGroup>
 </Stack>
 

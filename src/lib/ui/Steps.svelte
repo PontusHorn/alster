@@ -4,7 +4,6 @@
 
 <style>
 	ul {
-		margin: 0;
 		padding-block: var(--spacing-small);
 		padding-inline: var(--spacing-medium) 0;
 		list-style: none;

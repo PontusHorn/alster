@@ -1,10 +1,20 @@
-export type Config = {
-	root: RootConfig;
+export type WorkConfig = {
+	/** Meta data about the work */
+	meta: WorkMeta;
+	/** Config for the canvas and the root level of drawing data */
+	base: BaseConfig;
+	/** Record of all iterations */
 	iterations: Iteration[];
+	/** Record of all shapes */
 	shapes: Shape[];
 };
 
-export type RootConfig = {
+export type WorkMeta = {
+	id: string;
+	name: string;
+};
+
+export type BaseConfig = {
 	background: Color;
 	width: number;
 	height: number;

@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import { iterations, shapes } from '$lib/stores/config';
+	import { iterations, shapes } from '$lib/stores/currentWork';
 	import { editedItem } from '$lib/stores/ui';
 	import type { Expression, Iteration, Shape } from '$lib/types';
 	import Button from '$lib/ui/Button.svelte';

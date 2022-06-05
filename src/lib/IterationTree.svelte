@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { iterations, rootConfig, shapes } from '$lib/stores/config';
+	import { iterations, baseConfig, shapes } from '$lib/stores/currentWork';
 	import { editedItem } from '$lib/stores/ui';
 	import type { Iteration, Shape } from '$lib/types';
 	import Binding from '$lib/ui/Binding.svelte';
@@ -32,12 +32,12 @@
 
 	function deleteIteration(id: Iteration['id']): void {
 		if (parent === 'root') {
-			$rootConfig.iterationIds = without($rootConfig.iterationIds, id);
+			$baseConfig.iterationIds = without($baseConfig.iterationIds, id);
 		} else {
 			const parentIndex = $iterations.indexOf(parent);
 			$iterations[parentIndex].iterationIds = without(parent.iterationIds, id);
 		}
-		$iterations = deleteUnreferencedIterations($rootConfig.iterationIds, $iterations);
+		$iterations = deleteUnreferencedIterations($baseConfig.iterationIds, $iterations);
 		$shapes = deleteUnreferencedShapes($iterations, $shapes);
 	}
 

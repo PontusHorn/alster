@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import { config, rootConfig } from '$lib/stores/config';
-	import type { Config, Expression } from '$lib/types';
+	import { config, baseConfig } from '$lib/stores/currentWork';
+	import type { WorkConfig, Expression } from '$lib/types';
 	import { drawCanvas, getColorExpressions, getShapeExpressions } from '$lib/utils/drawing';
 	import { isExpression, isRef } from '$lib/utils/expression';
 	import { onDestroy } from 'svelte';
@@ -35,7 +35,7 @@
 		}
 	}
 
-	function onConfigChanged(ctx: CanvasRenderingContext2D, config: Config) {
+	function onConfigChanged(ctx: CanvasRenderingContext2D, config: WorkConfig) {
 		// If the config does *not* reference the time, we only need to update on config changes.
 		if (!configReferencesTime(config)) {
 			const time = 0;
@@ -43,9 +43,9 @@
 		}
 	}
 
-	function configReferencesTime(config: Config): boolean {
+	function configReferencesTime(config: WorkConfig): boolean {
 		const expressions = [
-			...getColorExpressions(config.root.background),
+			...getColorExpressions(config.base.background),
 			...config.shapes.flatMap(getShapeExpressions)
 		];
 		return expressions.some(expressionReferencesTime);
@@ -60,7 +60,7 @@
 	}
 </script>
 
-<canvas width={$rootConfig.width} height={$rootConfig.height} bind:this={canvas} />
+<canvas width={$baseConfig.width} height={$baseConfig.height} bind:this={canvas} />
 
 <style>
 	canvas {

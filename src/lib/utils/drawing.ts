@@ -10,23 +10,23 @@ import {
 	type Rgb,
 	ColorType,
 	type NumberedColor,
-	type Config,
+	type WorkConfig,
 	type Expression
 } from '$lib/types';
 import { getIteration, getShape } from '$lib/utils/config';
 
 type Ctx = CanvasRenderingContext2D;
 
-export function drawCanvas(ctx: Ctx, config: Config, time: number): void {
+export function drawCanvas(ctx: Ctx, config: WorkConfig, time: number): void {
 	const bindings: Bindings = {
 		time,
-		canvasWidth: config.root.width,
-		canvasHeight: config.root.height
+		canvasWidth: config.base.width,
+		canvasHeight: config.base.height
 	};
 
-	drawBackground(ctx, bindings, config.root.background);
+	drawBackground(ctx, bindings, config.base.background);
 
-	for (const iterationId of config.root.iterationIds) {
+	for (const iterationId of config.base.iterationIds) {
 		const iteration = getIteration(config.iterations, iterationId);
 		drawIteration(ctx, config, bindings, iteration);
 	}
@@ -37,7 +37,12 @@ export function drawBackground(ctx: Ctx, bindings: Bindings, color: Color) {
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 
-export function drawIteration(ctx: Ctx, config: Config, bindings: Bindings, iteration: Iteration) {
+export function drawIteration(
+	ctx: Ctx,
+	config: WorkConfig,
+	bindings: Bindings,
+	iteration: Iteration
+) {
 	const { name, start, end } = iteration;
 	for (bindings[name] = start; bindings[name] < end; bindings[name]++) {
 		for (const shapeId of iteration.shapeIds) {
@@ -100,7 +105,7 @@ export function isShapeType(type: unknown): type is Shape['shapeType'] {
 	return type === 'rectangle' || type === 'ellipse';
 }
 
-function getColor(color: Color, bindings: Bindings): string {
+export function getColor(color: Color, bindings: Bindings): string {
 	switch (color.type) {
 		case ColorType.Hex:
 			return color.hex;

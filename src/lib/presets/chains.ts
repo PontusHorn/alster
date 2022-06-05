@@ -1,8 +1,13 @@
+import type { WorkConfig } from '$lib/types';
 import { makeHsl, makeRgb } from '$lib/utils/drawing';
 import { toExp } from '$lib/utils/expression';
 
-const chainsConfig = {
-	root: {
+const chainsConfig: WorkConfig = {
+	meta: {
+		id: 'akqo699us4u',
+		name: 'Chains'
+	},
+	base: {
 		background: makeRgb(238, 227, 185),
 		width: 800,
 		height: 600,
