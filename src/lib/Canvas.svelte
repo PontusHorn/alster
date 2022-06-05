@@ -65,5 +65,6 @@
 <style>
 	canvas {
 		align-self: start;
+		max-width: 100%;
 	}
 </style>

@@ -5,8 +5,15 @@
 	export let direction: 'row' | 'column' | undefined = undefined;
 	export let spacing: ThemeSpacing | undefined = undefined;
 	export let align: 'start' | 'end' | 'center' | 'stretch' | undefined = undefined;
-	export let justify: 'start' | 'end' | 'center' | 'normal' | 'space-between' | undefined =
-		undefined;
+	export let justify:
+		| 'start'
+		| 'end'
+		| 'center'
+		| 'normal'
+		| 'space-between'
+		| 'stretch'
+		| undefined = undefined;
+	export let wrap: true | undefined = undefined;
 </script>
 
 <svelte:element
@@ -16,6 +23,7 @@
 	style:gap={spacing && spacingVar(spacing)}
 	style:align-items={align}
 	style:justify-content={justify}
+	style:flex-wrap={wrap && 'wrap'}
 >
 	<slot />
 </svelte:element>

@@ -20,7 +20,7 @@
 	}
 </script>
 
-<Stack direction="row" spacing="medium">
+<Stack direction="row" spacing="medium" wrap>
 	<FormGroup title="Steps">
 		<Stack direction="column">
 			{#if $baseConfig.iterationIds.length}

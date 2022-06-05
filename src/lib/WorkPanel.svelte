@@ -4,7 +4,6 @@
 
 <script lang="ts">
 	import { presets } from '$lib/presets';
-
 	import { config, iterations, baseConfig, shapes, metaConfig } from '$lib/stores/currentWork';
 	import { savedWorks } from '$lib/stores/savedWorks';
 	import type { WorkConfig } from '$lib/types';
@@ -47,7 +46,7 @@
 	}
 </script>
 
-<Stack direction="row" spacing="medium">
+<Stack direction="row" spacing="medium" wrap>
 	<FormGroup title="Current work">
 		<Stack spacing="medium">
 			<FormGrid>

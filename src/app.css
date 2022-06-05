@@ -12,6 +12,10 @@ html {
 	line-height: 1.5;
 }
 
+body {
+	padding: var(--spacing-medium);
+}
+
 h2 {
 	font-size: 1.15rem;
 	font-weight: 550;
