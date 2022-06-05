@@ -42,6 +42,10 @@ code {
 	font-weight: 350;
 }
 
+[hidden] {
+	display: none !important;
+}
+
 /** FONTS **/
 
 /* Glory (sans-serif font) */
