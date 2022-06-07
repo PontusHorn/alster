@@ -12,7 +12,7 @@ describe('evaluate', () => {
 		});
 
 		it('throws on undefined reference', () => {
-			expect(() => evaluate(exp(ref('i')), { j: 10 })).toThrowError('Invalid reference: $i');
+			expect(() => evaluate(exp(ref('i')), { j: 10 })).toThrowError('Invalid reference: [i]');
 		});
 	});
 
@@ -201,11 +201,13 @@ describe('stringToExpression', () => {
 		expect(() => stringToExpression('2 + 3)')).toThrow('Unmatched end bracket');
 	});
 
-	it('creates refs for letters preceded by dollar sign', () => {
-		expect(stringToExpression('$a + $b')).toEqual(exp(ref('a'), op('+'), ref('b')));
+	it('creates refs for letters surrounded by square brackets', () => {
+		expect(stringToExpression('[a] + [b]')).toEqual(exp(ref('a'), op('+'), ref('b')));
 	});
 
-	it('allows uppercase and lowercase letters, digits, and underscores in ref name', () => {
-		expect(stringToExpression('$abc123+$_ABC')).toEqual(exp(ref('abc123'), op('+'), ref('_ABC')));
+	it('allows uppercase and lowercase letters, digits, spaces, and underscores in ref name', () => {
+		expect(stringToExpression('[abc 123]+[_ABC]')).toEqual(
+			exp(ref('abc 123'), op('+'), ref('_ABC'))
+		);
 	});
 });

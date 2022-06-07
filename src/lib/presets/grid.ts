@@ -17,7 +17,7 @@ const gridConfig: WorkConfig = {
 		{
 			type: 'iteration',
 			id: 'rbdvkduxhyn',
-			name: 'row',
+			name: 'Row',
 			start: 0,
 			end: 12,
 			shapeIds: [],
@@ -26,7 +26,7 @@ const gridConfig: WorkConfig = {
 		{
 			type: 'iteration',
 			id: '22bvtlmcodb',
-			name: 'column',
+			name: 'Column',
 			start: 0,
 			end: 16,
 			shapeIds: ['ha18zkr0d1b', 'ak605ejwe9l'],
@@ -38,9 +38,9 @@ const gridConfig: WorkConfig = {
 			type: 'shape',
 			shapeType: 'rectangle',
 			id: 'ha18zkr0d1b',
-			color: makeNumberedColor('$row * 12 + $column'),
-			x: toExp('$column * 50 + 25'),
-			y: toExp('$row * 50 + 25'),
+			color: makeNumberedColor('[Row] * 12 + [Column]'),
+			x: toExp('[Column] * 50 + 25'),
+			y: toExp('[Row] * 50 + 25'),
 			width: toExp(50),
 			height: toExp(50),
 			rotation: toExp(0)
@@ -49,12 +49,12 @@ const gridConfig: WorkConfig = {
 			type: 'shape',
 			shapeType: 'ellipse',
 			id: 'ak605ejwe9l',
-			color: makeNumberedColor('16 * 12 + $row * 12 + $column'),
-			x: toExp('$column * 50 + 25'),
-			y: toExp('$row * 50 + 25'),
+			color: makeNumberedColor('16 * 12 + [Row] * 12 + [Column]'),
+			x: toExp('[Column] * 50 + 25'),
+			y: toExp('[Row] * 50 + 25'),
 			width: toExp(40),
 			height: toExp(20),
-			rotation: toExp('$column * 10 + $row * 10')
+			rotation: toExp('[Column] * 10 + [Row] * 10')
 		}
 	]
 };

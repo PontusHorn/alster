@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/env';
+	import { BINDING_NAME_TIME } from '$lib/constants';
 	import { config, baseConfig } from '$lib/stores/currentWork';
 	import type { WorkConfig, Expression } from '$lib/types';
 	import { drawCanvas, getColorExpressions, getShapeExpressions } from '$lib/utils/drawing';
@@ -55,7 +56,7 @@
 		return expression.value.some(
 			(part) =>
 				(isExpression(part) && expressionReferencesTime(part)) ||
-				(isRef(part) && part.name === 'time')
+				(isRef(part) && part.name === BINDING_NAME_TIME)
 		);
 	}
 </script>

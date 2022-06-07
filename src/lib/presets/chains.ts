@@ -17,7 +17,7 @@ const chainsConfig: WorkConfig = {
 		{
 			type: 'iteration',
 			id: 'yy35ijzr458',
-			name: 'chain',
+			name: 'Chain',
 			start: 0,
 			end: 3,
 			shapeIds: [],
@@ -26,7 +26,7 @@ const chainsConfig: WorkConfig = {
 		{
 			type: 'iteration',
 			id: '2zeea47kpam',
-			name: 'link',
+			name: 'Link',
 			start: 0,
 			end: 120,
 			shapeIds: ['9edvd4bcgd8'],
@@ -38,14 +38,14 @@ const chainsConfig: WorkConfig = {
 			type: 'shape',
 			shapeType: 'ellipse',
 			id: '9edvd4bcgd8',
-			color: makeHsl('$chain * 100 + $link * 122 - $time * 0.03', 80, 60),
+			color: makeHsl('[Chain] * 100 + [Link] * 122 - [Time] * 0.03', 80, 60),
 			x: toExp(
-				'($chain * ($canvasWidth + 100) / 3 + $link * 7 + $time / 10) % ($canvasWidth + 100) - 50'
+				'([Chain] * ([Canvas width] + 100) / 3 + [Link] * 7 + [Time] / 10) % ([Canvas width] + 100) - 50'
 			),
-			y: toExp('$link * 6 - 50'),
+			y: toExp('[Link] * 6 - 50'),
 			width: toExp(100),
 			height: toExp(40),
-			rotation: toExp('$link * 0.06 + $time / 1000')
+			rotation: toExp('[Link] * 0.06 + [Time] / 1000')
 		}
 	]
 };

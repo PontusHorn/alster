@@ -107,7 +107,7 @@ function tokenToString(token: Readonly<Token>): string {
 		case 'operator':
 			return token.value;
 		case 'ref':
-			return '$' + token.name;
+			return `[${token.name}]`;
 		case 'value':
 			return token.value.toString();
 	}
@@ -116,7 +116,7 @@ function tokenToString(token: Readonly<Token>): string {
 export function stringToExpression(value: string): Expression {
 	const expression = exp();
 	const match = value.match(
-		/\+|(?<!(^|[+\-*/%^(])\s*)-|\*|\/|%|\^|\(|\)|-?\d+(?:\.\d+)?|\$[a-zA-Z0-9_]+/g
+		/\+|(?<!(^|[+\-*/%^(])\s*)-|\*|\/|%|\^|\(|\)|-?\d+(?:\.\d+)?|\[[a-zA-Z0-9 _]+\]/g
 	);
 	if (match === null) {
 		throw new Error('No valid tokens found in expression' + value);
@@ -140,8 +140,8 @@ export function stringToExpression(value: string): Expression {
 			}
 		} else if (isOpType(stringToken)) {
 			currentExpression.value.push(op(stringToken));
-		} else if (stringToken.startsWith('$')) {
-			currentExpression.value.push(ref(stringToken.slice(1)));
+		} else if (stringToken.startsWith('[') && stringToken.endsWith(']')) {
+			currentExpression.value.push(ref(stringToken.slice(1, -1)));
 		} else {
 			const number = Number.parseFloat(stringToken);
 			if (Number.isNaN(number)) {

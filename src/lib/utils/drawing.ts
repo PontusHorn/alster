@@ -14,14 +14,19 @@ import {
 	type Expression
 } from '$lib/types';
 import { getIteration, getShape } from '$lib/utils/config';
+import {
+	BINDING_NAME_CANVAS_HEIGHT,
+	BINDING_NAME_CANVAS_WIDTH,
+	BINDING_NAME_TIME
+} from '$lib/constants';
 
 type Ctx = CanvasRenderingContext2D;
 
 export function drawCanvas(ctx: Ctx, config: WorkConfig, time: number): void {
 	const bindings: Bindings = {
-		time,
-		canvasWidth: config.base.width,
-		canvasHeight: config.base.height
+		[BINDING_NAME_TIME]: time,
+		[BINDING_NAME_CANVAS_WIDTH]: config.base.width,
+		[BINDING_NAME_CANVAS_HEIGHT]: config.base.height
 	};
 
 	drawBackground(ctx, bindings, config.base.background);
