@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export type IconName = 'Edit' | 'Delete';
+	export type IconName = 'Edit' | 'Delete' | 'Info';
 </script>
 
 <script lang="ts">

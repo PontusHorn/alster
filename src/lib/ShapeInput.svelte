@@ -3,14 +3,14 @@
 </script>
 
 <script lang="ts">
-	import ColorInput from '$lib/ColorInput.svelte';
+	import { ColorInput } from '$lib/ui/Color';
 	import EllipseInput from '$lib/EllipseInput.svelte';
 	import RectangleInput from '$lib/RectangleInput.svelte';
 	import type { Shape } from '$lib/types';
 	import FormGrid from '$lib/ui/FormGrid.svelte';
 	import FormSubGroup from '$lib/ui/FormSubGroup.svelte';
 	import Stack from '$lib/ui/Stack.svelte';
-	import { convertShape, isShapeType } from '$lib/utils/drawing';
+	import { convertShape, getShapeName, isShapeType } from '$lib/utils/drawing';
 
 	const index = counter++;
 
@@ -30,8 +30,8 @@
 		<FormGrid>
 			<label for="ShapeInput-shape-{index}" class="label-shape">Shape type:</label>
 			<select id="ShapeInput-shape-{index}" value={shape.shapeType} on:change={onChangeShapeType}>
-				<option value="rectangle">Rectangle</option>
-				<option value="ellipse">Ellipse</option>
+				<option value="rectangle">{getShapeName('rectangle')}</option>
+				<option value="ellipse">{getShapeName('ellipse')}</option>
 			</select>
 
 			{#if shape.shapeType === 'rectangle'}
@@ -45,6 +45,6 @@
 	</FormSubGroup>
 
 	<FormSubGroup title="Color">
-		<ColorInput bind:color={shape.color} />
+		<ColorInput bind:color={shape.color} subjectName={shape.shapeType} />
 	</FormSubGroup>
 </Stack>

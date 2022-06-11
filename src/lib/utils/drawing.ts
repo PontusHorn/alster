@@ -261,6 +261,15 @@ export function getShapeExpressions(shape: Shape): Expression[] {
 	}
 }
 
+export function getShapeName(shapeType: Shape['shapeType']): string {
+	switch (shapeType) {
+		case 'rectangle':
+			return 'Rectangle';
+		case 'ellipse':
+			return 'Ellipse';
+	}
+}
+
 export function mapColorExpressions<C extends Color>(
 	color: C,
 	callback: (expression: Expression) => Expression

@@ -2,6 +2,11 @@
     xmlns="http://www.w3.org/2000/svg">
     <title>Edit</title>
     <defs>
+        <!--
+        This is the "Light/Edit" icon from the Iconly set by https://piqo.design/.
+        It has been modified slightly to fit the needs of this project, by using "currentColor" as
+        the stroke color, removing some unnecessary code, and restructuring.
+        -->
         <symbol id="Edit" viewBox="0 0 24 24">
             <g transform="translate(3, 3)" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="10.7473996" y1="17.4429051" x2="18" y2="17.4429051" />

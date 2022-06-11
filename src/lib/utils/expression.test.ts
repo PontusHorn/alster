@@ -1,3 +1,4 @@
+import { OperatorType } from '$lib/types';
 import { evaluate, exp, op, ref, stringToExpression, val } from '$lib/utils/expression';
 import { describe, expect, it } from 'vitest';
 
@@ -18,180 +19,244 @@ describe('evaluate', () => {
 
 	describe('addition', () => {
 		it('resolves addition of value and value', () => {
-			expect(evaluate(exp(val(6), op('+'), val(3)), {})).toBe(9);
+			expect(evaluate(exp(val(6), op(OperatorType.Add), val(3)), {})).toBe(9);
 		});
 
 		it('resolves addition of value and reference', () => {
-			expect(evaluate(exp(val(12), op('+'), ref('i')), { i: 4 })).toBe(16);
+			expect(evaluate(exp(val(12), op(OperatorType.Add), ref('i')), { i: 4 })).toBe(16);
 		});
 
 		it('resolves addition of reference and reference', () => {
-			expect(evaluate(exp(ref('i'), op('+'), ref('j')), { i: 4, j: 2 })).toBe(6);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Add), ref('j')), { i: 4, j: 2 })).toBe(6);
 		});
 	});
 
 	describe('subtraction', () => {
 		it('resolves subtraction of value and value', () => {
-			expect(evaluate(exp(val(6), op('-'), val(3)), {})).toBe(3);
+			expect(evaluate(exp(val(6), op(OperatorType.Subtract), val(3)), {})).toBe(3);
 		});
 
 		it('resolves subtraction of value and reference', () => {
-			expect(evaluate(exp(val(12), op('-'), ref('i')), { i: 4 })).toBe(8);
+			expect(evaluate(exp(val(12), op(OperatorType.Subtract), ref('i')), { i: 4 })).toBe(8);
 		});
 
 		it('resolves subtraction of reference and reference', () => {
-			expect(evaluate(exp(ref('i'), op('-'), ref('j')), { i: 4, j: 2 })).toBe(2);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Subtract), ref('j')), { i: 4, j: 2 })).toBe(2);
 		});
 	});
 
 	describe('multiplication', () => {
 		it('resolves multiplication of value and value', () => {
-			expect(evaluate(exp(val(6), op('*'), val(3)), {})).toBe(18);
+			expect(evaluate(exp(val(6), op(OperatorType.Multiply), val(3)), {})).toBe(18);
 		});
 
 		it('resolves multiplication of value and reference', () => {
-			expect(evaluate(exp(val(12), op('*'), ref('i')), { i: 4 })).toBe(48);
+			expect(evaluate(exp(val(12), op(OperatorType.Multiply), ref('i')), { i: 4 })).toBe(48);
 		});
 
 		it('resolves multiplication of reference and reference', () => {
-			expect(evaluate(exp(ref('i'), op('*'), ref('j')), { i: 4, j: 2 })).toBe(8);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Multiply), ref('j')), { i: 4, j: 2 })).toBe(8);
 		});
 	});
 
 	describe('division', () => {
 		it('resolves division of value and value', () => {
-			expect(evaluate(exp(val(6), op('/'), val(3)), {})).toBe(2);
+			expect(evaluate(exp(val(6), op(OperatorType.Divide), val(3)), {})).toBe(2);
 		});
 
 		it('resolves division of value and reference', () => {
-			expect(evaluate(exp(val(12), op('/'), ref('i')), { i: 4 })).toBe(3);
+			expect(evaluate(exp(val(12), op(OperatorType.Divide), ref('i')), { i: 4 })).toBe(3);
 		});
 
 		it('resolves division of reference and reference', () => {
-			expect(evaluate(exp(ref('i'), op('/'), ref('j')), { i: 4, j: 2 })).toBe(2);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Divide), ref('j')), { i: 4, j: 2 })).toBe(2);
 		});
 	});
 
 	describe('remainder', () => {
 		it('resolves remainder of value divided by value', () => {
-			expect(evaluate(exp(val(7), op('%'), val(3)), {})).toBe(1);
+			expect(evaluate(exp(val(7), op(OperatorType.Modulo), val(3)), {})).toBe(1);
 		});
 
 		it('resolves remainder of value divided by reference', () => {
-			expect(evaluate(exp(val(12), op('%'), ref('i')), { i: 4 })).toBe(0);
+			expect(evaluate(exp(val(12), op(OperatorType.Modulo), ref('i')), { i: 4 })).toBe(0);
 		});
 
 		it('resolves remainder of reference divided by reference', () => {
-			expect(evaluate(exp(ref('i'), op('%'), ref('j')), { i: 14, j: 3 })).toBe(2);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Modulo), ref('j')), { i: 14, j: 3 })).toBe(2);
 		});
 	});
 
 	describe('exponent', () => {
 		it('resolves value to the power of value', () => {
-			expect(evaluate(exp(val(6), op('^'), val(3)), {})).toBe(216);
+			expect(evaluate(exp(val(6), op(OperatorType.Raise), val(3)), {})).toBe(216);
 		});
 
 		it('resolves value to the power of reference', () => {
-			expect(evaluate(exp(val(12), op('^'), ref('i')), { i: 4 })).toBe(20736);
+			expect(evaluate(exp(val(12), op(OperatorType.Raise), ref('i')), { i: 4 })).toBe(20736);
 		});
 
 		it('resolves reference to the power of reference', () => {
-			expect(evaluate(exp(ref('i'), op('^'), ref('j')), { i: 4, j: 2 })).toBe(16);
+			expect(evaluate(exp(ref('i'), op(OperatorType.Raise), ref('j')), { i: 4, j: 2 })).toBe(16);
 		});
 	});
 
 	describe('multiple sub-expressions and order of operations', () => {
 		it('resolves multiple value additions', () => {
-			expect(evaluate(exp(val(2), op('+'), val(3), op('+'), val(4)), {})).toBe(9);
+			expect(
+				evaluate(exp(val(2), op(OperatorType.Add), val(3), op(OperatorType.Add), val(4)), {})
+			).toBe(9);
 		});
 
 		it('resolves multiple value subtractions', () => {
-			expect(evaluate(exp(val(2), op('-'), val(3), op('-'), val(4)), {})).toBe(-5);
+			expect(
+				evaluate(
+					exp(val(2), op(OperatorType.Subtract), val(3), op(OperatorType.Subtract), val(4)),
+					{}
+				)
+			).toBe(-5);
 		});
 
 		it('resolves multiple value multiplications', () => {
-			expect(evaluate(exp(val(2), op('*'), val(3), op('*'), val(4)), {})).toBe(24);
+			expect(
+				evaluate(
+					exp(val(2), op(OperatorType.Multiply), val(3), op(OperatorType.Multiply), val(4)),
+					{}
+				)
+			).toBe(24);
 		});
 
 		it('resolves multiple value divisions', () => {
-			expect(evaluate(exp(val(3), op('/'), val(4), op('/'), val(2)), {})).toBe(0.375);
+			expect(
+				evaluate(exp(val(3), op(OperatorType.Divide), val(4), op(OperatorType.Divide), val(2)), {})
+			).toBe(0.375);
 		});
 
 		it('resolves multiple value remainders left to right', () => {
-			expect(evaluate(exp(val(10), op('%'), val(6), op('%'), val(3)), {})).toBe(1);
+			expect(
+				evaluate(exp(val(10), op(OperatorType.Modulo), val(6), op(OperatorType.Modulo), val(3)), {})
+			).toBe(1);
 		});
 
 		it('resolves multiple value exponents left to right', () => {
-			expect(evaluate(exp(val(2), op('^'), val(3), op('^'), val(4)), {})).toBe(4096);
+			expect(
+				evaluate(exp(val(2), op(OperatorType.Raise), val(3), op(OperatorType.Raise), val(4)), {})
+			).toBe(4096);
 		});
 
 		it('resolves mixed value additions and subtractions from left to right', () => {
-			expect(evaluate(exp(val(2), op('-'), val(3), op('+'), val(4)), {})).toBe(3);
+			expect(
+				evaluate(exp(val(2), op(OperatorType.Subtract), val(3), op(OperatorType.Add), val(4)), {})
+			).toBe(3);
 		});
 
 		it('resolves mixed value multiplications, divisions, and remainders from left to right', () => {
-			expect(evaluate(exp(val(100), op('/'), val(2), op('%'), val(20), op('*'), val(3)), {})).toBe(
-				30
-			);
+			expect(
+				evaluate(
+					exp(
+						val(100),
+						op(OperatorType.Divide),
+						val(2),
+						op(OperatorType.Modulo),
+						val(20),
+						op(OperatorType.Multiply),
+						val(3)
+					),
+					{}
+				)
+			).toBe(30);
 		});
 
 		it('resolves multiplications, divisions, and remainders before additions and subtractions', () => {
-			expect(evaluate(exp(val(2), op('+'), val(3), op('*'), val(4)), {})).toBe(14);
-			expect(evaluate(exp(val(2), op('-'), val(3), op('*'), val(4)), {})).toBe(-10);
-			expect(evaluate(exp(val(2), op('+'), val(3), op('/'), val(4)), {})).toBe(2.75);
-			expect(evaluate(exp(val(2), op('-'), val(3), op('/'), val(4)), {})).toBe(1.25);
-			expect(evaluate(exp(val(4), op('+'), val(3), op('%'), val(2)), {})).toBe(5);
-			expect(evaluate(exp(val(4), op('-'), val(3), op('%'), val(2)), {})).toBe(3);
+			expect(
+				evaluate(exp(val(2), op(OperatorType.Add), val(3), op(OperatorType.Multiply), val(4)), {})
+			).toBe(14);
+			expect(
+				evaluate(
+					exp(val(2), op(OperatorType.Subtract), val(3), op(OperatorType.Multiply), val(4)),
+					{}
+				)
+			).toBe(-10);
+			expect(
+				evaluate(exp(val(2), op(OperatorType.Add), val(3), op(OperatorType.Divide), val(4)), {})
+			).toBe(2.75);
+			expect(
+				evaluate(
+					exp(val(2), op(OperatorType.Subtract), val(3), op(OperatorType.Divide), val(4)),
+					{}
+				)
+			).toBe(1.25);
+			expect(
+				evaluate(exp(val(4), op(OperatorType.Add), val(3), op(OperatorType.Modulo), val(2)), {})
+			).toBe(5);
+			expect(
+				evaluate(
+					exp(val(4), op(OperatorType.Subtract), val(3), op(OperatorType.Modulo), val(2)),
+					{}
+				)
+			).toBe(3);
 		});
 
 		it('resolves exponents before multiplications, divisions, and remainders', () => {
-			expect(evaluate(exp(val(4), op('*'), val(3), op('^'), val(2)), {})).toBe(36);
-			expect(evaluate(exp(val(4), op('/'), val(2), op('^'), val(2)), {})).toBe(1);
-			expect(evaluate(exp(val(7), op('%'), val(2), op('^'), val(2)), {})).toBe(3);
+			expect(
+				evaluate(exp(val(4), op(OperatorType.Multiply), val(3), op(OperatorType.Raise), val(2)), {})
+			).toBe(36);
+			expect(
+				evaluate(exp(val(4), op(OperatorType.Divide), val(2), op(OperatorType.Raise), val(2)), {})
+			).toBe(1);
+			expect(
+				evaluate(exp(val(7), op(OperatorType.Modulo), val(2), op(OperatorType.Raise), val(2)), {})
+			).toBe(3);
 		});
 	});
 });
 
 describe('stringToExpression', () => {
 	it('converts a string to an expression', () => {
-		expect(stringToExpression('2+3')).toEqual(exp(val(2), op('+'), val(3)));
+		expect(stringToExpression('2+3')).toEqual(exp(val(2), op(OperatorType.Add), val(3)));
 	});
 
 	it('ignores whitespace', () => {
-		expect(stringToExpression(' 2 +  3 ')).toEqual(exp(val(2), op('+'), val(3)));
+		expect(stringToExpression(' 2 +  3 ')).toEqual(exp(val(2), op(OperatorType.Add), val(3)));
 	});
 
 	it('treats sequential digits as single number', () => {
-		expect(stringToExpression('255 + 4096')).toEqual(exp(val(255), op('+'), val(4096)));
+		expect(stringToExpression('255 + 4096')).toEqual(
+			exp(val(255), op(OperatorType.Add), val(4096))
+		);
 	});
 
 	it('handles negated numbers', () => {
-		expect(stringToExpression('-2 + -3')).toEqual(exp(val(-2), op('+'), val(-3)));
+		expect(stringToExpression('-2 + -3')).toEqual(exp(val(-2), op(OperatorType.Add), val(-3)));
 	});
 
 	it('handles decimals', () => {
-		expect(stringToExpression('2.0 + 3.14')).toEqual(exp(val(2), op('+'), val(3.14)));
+		expect(stringToExpression('2.0 + 3.14')).toEqual(exp(val(2), op(OperatorType.Add), val(3.14)));
 	});
 
 	it('handles all operators', () => {
-		expect(stringToExpression('2+3')).toEqual(exp(val(2), op('+'), val(3)));
-		expect(stringToExpression('2-3')).toEqual(exp(val(2), op('-'), val(3)));
-		expect(stringToExpression('2*3')).toEqual(exp(val(2), op('*'), val(3)));
-		expect(stringToExpression('2/3')).toEqual(exp(val(2), op('/'), val(3)));
-		expect(stringToExpression('2%3')).toEqual(exp(val(2), op('%'), val(3)));
-		expect(stringToExpression('2^3')).toEqual(exp(val(2), op('^'), val(3)));
+		expect(stringToExpression('2+3')).toEqual(exp(val(2), op(OperatorType.Add), val(3)));
+		expect(stringToExpression('2-3')).toEqual(exp(val(2), op(OperatorType.Subtract), val(3)));
+		expect(stringToExpression('2*3')).toEqual(exp(val(2), op(OperatorType.Multiply), val(3)));
+		expect(stringToExpression('2/3')).toEqual(exp(val(2), op(OperatorType.Divide), val(3)));
+		expect(stringToExpression('2%3')).toEqual(exp(val(2), op(OperatorType.Modulo), val(3)));
+		expect(stringToExpression('2^3')).toEqual(exp(val(2), op(OperatorType.Raise), val(3)));
 	});
 
 	it('creates sub-expressions for brackets', () => {
-		expect(stringToExpression('(2 + 3)')).toEqual(exp(exp(val(2), op('+'), val(3))));
+		expect(stringToExpression('(2 + 3)')).toEqual(exp(exp(val(2), op(OperatorType.Add), val(3))));
 	});
 
 	it('creates sub-expressions for nested brackets', () => {
 		expect(stringToExpression('(2 + 3) * (1.5 / ((-3 + 2) * 4))')).toEqual(
 			exp(
-				exp(val(2), op('+'), val(3)),
-				op('*'),
-				exp(val(1.5), op('/'), exp(exp(val(-3), op('+'), val(2)), op('*'), val(4)))
+				exp(val(2), op(OperatorType.Add), val(3)),
+				op(OperatorType.Multiply),
+				exp(
+					val(1.5),
+					op(OperatorType.Divide),
+					exp(exp(val(-3), op(OperatorType.Add), val(2)), op(OperatorType.Multiply), val(4))
+				)
 			)
 		);
 	});
@@ -202,12 +267,12 @@ describe('stringToExpression', () => {
 	});
 
 	it('creates refs for letters surrounded by square brackets', () => {
-		expect(stringToExpression('[a] + [b]')).toEqual(exp(ref('a'), op('+'), ref('b')));
+		expect(stringToExpression('[a] + [b]')).toEqual(exp(ref('a'), op(OperatorType.Add), ref('b')));
 	});
 
 	it('allows uppercase and lowercase letters, digits, spaces, and underscores in ref name', () => {
 		expect(stringToExpression('[abc 123]+[_ABC]')).toEqual(
-			exp(ref('abc 123'), op('+'), ref('_ABC'))
+			exp(ref('abc 123'), op(OperatorType.Add), ref('_ABC'))
 		);
 	});
 });

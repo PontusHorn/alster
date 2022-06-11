@@ -7,7 +7,7 @@
 		padding-block: var(--spacing-small);
 		padding-inline: var(--spacing-medium) 0;
 		list-style: none;
-		background-color: var(--color-neutralBackgroundCompounding);
+		background-color: var(--color-flavorBackgroundCompounding);
 		border-radius: var(--borderRadius-large);
 		border-start-end-radius: var(--steps-inlineEndBorderRadius, var(--borderRadius-large));
 		border-end-end-radius: var(--steps-inlineEndBorderRadius, var(--borderRadius-large));

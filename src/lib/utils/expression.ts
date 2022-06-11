@@ -1,14 +1,14 @@
-import type {
-	Bindings,
-	Expression,
-	Operator,
+import {
+	type Bindings,
+	type Expression,
+	type Operator,
 	OperatorType,
-	Token,
-	Value,
-	ValueExpression,
-	Ref,
-	ExpressionPart,
-	ValueToken
+	type Token,
+	type Value,
+	type ValueExpression,
+	type Ref,
+	type ExpressionPart,
+	type ValueToken
 } from '$lib/types';
 
 export const op = (value: OperatorType): Operator => ({ type: 'operator', value });
@@ -45,9 +45,15 @@ export const isExpression = (part: Readonly<ExpressionPart>): part is Expression
 export function evaluate(expression: Readonly<Expression>, bindings: Readonly<Bindings>): number {
 	let updatedExpression = resolveRefs(expression, bindings);
 	updatedExpression = evaluateSubExpressions(updatedExpression);
-	updatedExpression = evaluateOperators(['^'], updatedExpression);
-	updatedExpression = evaluateOperators(['*', '/', '%'], updatedExpression);
-	updatedExpression = evaluateOperators(['+', '-'], updatedExpression);
+	updatedExpression = evaluateOperators([OperatorType.Raise], updatedExpression);
+	updatedExpression = evaluateOperators(
+		[OperatorType.Multiply, OperatorType.Divide, OperatorType.Modulo],
+		updatedExpression
+	);
+	updatedExpression = evaluateOperators(
+		[OperatorType.Add, OperatorType.Subtract],
+		updatedExpression
+	);
 
 	if (updatedExpression.value.length > 1 || !isVal(updatedExpression.value[0])) {
 		throw new Error("Can't resolve expression further: " + expressionToString(updatedExpression));
@@ -186,17 +192,17 @@ function resolveOperator(
 	right: Readonly<Value>
 ): number {
 	switch (operator) {
-		case '+':
+		case OperatorType.Add:
 			return left.value + right.value;
-		case '-':
+		case OperatorType.Subtract:
 			return left.value - right.value;
-		case '*':
+		case OperatorType.Multiply:
 			return left.value * right.value;
-		case '/':
+		case OperatorType.Divide:
 			return left.value / right.value;
-		case '%':
+		case OperatorType.Modulo:
 			return left.value % right.value;
-		case '^':
+		case OperatorType.Raise:
 			return left.value ** right.value;
 	}
 }
@@ -211,4 +217,35 @@ export function mapExpressionTokens(
 			isExpression(part) ? mapExpressionTokens(part, callback) : callback(part)
 		)
 	};
+}
+
+export function getOperatorSymbol(type: OperatorType): string {
+	switch (type) {
+		case OperatorType.Add:
+		case OperatorType.Subtract:
+		case OperatorType.Divide:
+		case OperatorType.Raise:
+			return type;
+		case OperatorType.Multiply:
+			return '×';
+		case OperatorType.Modulo:
+			return 'mod';
+	}
+}
+
+export function getOperatorName(type: OperatorType): string {
+	switch (type) {
+		case OperatorType.Add:
+			return 'plus';
+		case OperatorType.Subtract:
+			return 'minus';
+		case OperatorType.Multiply:
+			return 'times';
+		case OperatorType.Divide:
+			return 'divided by';
+		case OperatorType.Raise:
+			return 'raised to the power of';
+		case OperatorType.Modulo:
+			return 'modulo';
+	}
 }

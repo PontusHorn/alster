@@ -3,7 +3,8 @@
 	import { editedItem } from '$lib/stores/ui';
 	import type { Iteration, Shape } from '$lib/types';
 	import Binding from '$lib/ui/Binding.svelte';
-	import IconButton from '$lib/ui/IconButton.svelte';
+	import Button from '$lib/ui/Button.svelte';
+	import Icon from '$lib/ui/Icon.svelte';
 	import Stack from '$lib/ui/Stack.svelte';
 	import Step from '$lib/ui/Step.svelte';
 	import Steps from '$lib/ui/Steps.svelte';
@@ -48,24 +49,31 @@
 </script>
 
 {#if iteration}
+	{@const expanded = $editedItem?.type === 'iteration' && $editedItem.id === iteration.id}
 	<div class="iteration">
 		<span class="summary"
 			>Create {iteration.end - iteration.start} <Binding>{iteration.name}</Binding></span
 		>
 		<span class="actions">
 			<Stack direction="row" justify="end" spacing="tiny">
-				<IconButton
-					icon="Edit"
-					label="Edit {iteration.name}"
-					on:click={() => editedItem.set(iteration)}
-					controls={getEditIterationId(iteration.id)}
-					expanded={$editedItem?.type === 'iteration' && $editedItem.id === iteration.id}
-				/>
-				<IconButton
-					icon="Delete"
-					label="Delete {iteration.name}"
+				<Button
+					icon
+					variant="ghost"
+					aria-label="Edit {iteration.name}"
+					on:click={() => editedItem.set(expanded ? undefined : iteration)}
+					aria-controls={getEditIterationId(iteration.id)}
+					aria-expanded={expanded}
+				>
+					<Icon icon="Edit" />
+				</Button>
+				<Button
+					icon
+					variant="ghost"
+					aria-label="Delete {iteration.name}"
 					on:click={() => deleteIteration(iteration.id)}
-				/>
+				>
+					<Icon icon="Delete" />
+				</Button>
 			</Stack>
 		</span>
 
@@ -84,18 +92,24 @@
 								<span>Draw {shapeArticle(shape)} <b>{shape.shapeType}</b></span>
 								<span class="actions">
 									<Stack direction="row" justify="end" spacing="tiny">
-										<IconButton
-											icon="Edit"
-											label="Edit {shape.shapeType}"
+										<Button
+											icon
+											variant="ghost"
+											aria-label="Edit {shape.shapeType}"
 											on:click={() => editedItem.set(expanded ? undefined : shape)}
-											controls={getEditShapeId(shape.id)}
-											{expanded}
-										/>
-										<IconButton
-											icon="Delete"
-											label="Delete {shape.shapeType}"
+											aria-controls={getEditShapeId(shape.id)}
+											aria-expanded={expanded}
+										>
+											<Icon icon="Edit" />
+										</Button>
+										<Button
+											icon
+											variant="ghost"
+											aria-label="Delete {shape.shapeType}"
 											on:click={() => deleteShape(shape.id)}
-										/>
+										>
+											<Icon icon="Delete" />
+										</Button>
 									</Stack>
 								</span>
 							</Stack>

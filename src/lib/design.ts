@@ -3,7 +3,9 @@ enum Color {
 	veryDarkGreenAlpha5 = 'hsla(160, 100%, 5%, 5%)',
 	darkGreen = 'hsl(160, 70%, 23%)',
 	strongGreen = 'hsl(160, 100%, 25%)',
+	strongGreenAlpha5 = 'hsla(160, 100%, 25%, 5%)',
 	softGreen = 'hsl(160, 50%, 80%)',
+	softGreenAlpha50 = 'hsla(160, 50%, 80%, 50%)',
 	veryLightGreen = 'hsl(160, 100%, 99%)',
 	veryLightGreenAlpha50 = 'hsla(160, 100%, 99%, 50%)',
 	violet = 'hsl(280, 50%, 50%)'
@@ -26,8 +28,9 @@ export const THEME = {
 		complementary: Color.violet,
 		neutralBackground: Color.veryLightGreen,
 		neutralBackgroundDimmed: Color.veryLightGreenAlpha50,
-		neutralBackgroundCompounding: Color.veryDarkGreenAlpha5,
-		flavorBackground: Color.softGreen
+		flavorBackground: Color.softGreen,
+		flavorBackgroundCompounding: Color.strongGreenAlpha5,
+		flavorBackgroundDimmed: Color.softGreenAlpha50
 	},
 
 	[ThemeCategoryName.font]: {
@@ -49,6 +52,7 @@ export const THEME = {
 	},
 
 	[ThemeCategoryName.spacing]: {
+		none: '0',
 		tiny: '0.25rem',
 		small: '0.5rem',
 		medium: '1rem',

@@ -3,7 +3,7 @@
 
 	export let as: 'div' | 'ul' | 'li' = 'div';
 	export let direction: 'row' | 'column' | undefined = undefined;
-	export let spacing: ThemeSpacing | undefined = undefined;
+	export let spacing: ThemeSpacing | [ThemeSpacing, ThemeSpacing] | undefined = undefined;
 	export let align: 'start' | 'end' | 'center' | 'stretch' | undefined = undefined;
 	export let justify:
 		| 'start'
@@ -20,7 +20,8 @@
 	this={as}
 	class="stack"
 	style:flex-direction={direction}
-	style:gap={spacing && spacingVar(spacing)}
+	style:gap={spacing &&
+		(Array.isArray(spacing) ? spacing.map(spacingVar).join(' ') : spacingVar(spacing))}
 	style:align-items={align}
 	style:justify-content={justify}
 	style:flex-wrap={wrap && 'wrap'}

@@ -4,16 +4,16 @@
 	import type { Expression } from '$lib/types';
 
 	export let id: string;
-	export let value: Expression;
+	export let expression: Expression;
 
-	$: stringValue = expressionToString(value);
+	$: stringValue = expressionToString(expression);
 	let error = '';
 	$: invalid = error !== '';
 
 	function onChangeExpression(e: Event) {
 		if (!(e.target instanceof HTMLInputElement)) return;
 		try {
-			value = stringToExpression(e.target.value);
+			expression = stringToExpression(e.target.value);
 			error = '';
 		} catch (err) {
 			error = getErrorMessage(err);
@@ -31,6 +31,7 @@
 <style>
 	.wrapper {
 		position: relative;
+		flex: 1 0 auto;
 	}
 
 	input {

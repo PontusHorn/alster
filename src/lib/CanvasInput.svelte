@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import ColorInput from '$lib/ColorInput.svelte';
+	import { ColorInput } from '$lib/ui/Color';
 	import { baseConfig } from '$lib/stores/currentWork';
 	import FormGrid from '$lib/ui/FormGrid.svelte';
 	import FormGroup from '$lib/ui/FormGroup.svelte';
@@ -24,7 +24,7 @@
 	</FormGroup>
 
 	<FormGroup title="Color">
-		<ColorInput bind:color={$baseConfig.background} />
+		<ColorInput bind:color={$baseConfig.background} subjectName="background" />
 	</FormGroup>
 </Stack>
 

@@ -2,6 +2,11 @@
     xmlns="http://www.w3.org/2000/svg">
     <title>Delete</title>
     <defs>
+        <!--
+        This is the "Light/Delete" icon from the Iconly set by https://piqo.design/.
+        It has been modified slightly to fit the needs of this project, by using "currentColor" as
+        the stroke color, removing some unnecessary code, and restructuring.
+        -->
         <symbol id="Delete" viewBox="0 0 24 24">
             <g transform="translate(3, 2)" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16.3249,7.4682 C16.3249,7.4682 15.7819,14.2032 15.4669,17.0402 C15.3169,18.3952 14.4799,19.1892 13.1089,19.2142 C10.4999,19.2612 7.8879,19.2642 5.2799,19.2092 C3.9609,19.1822 3.1379,18.3782 2.9909,17.0472 C2.6739,14.1852 2.1339,7.4682 2.1339,7.4682" />

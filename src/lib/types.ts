@@ -92,6 +92,13 @@ export type ValueExpression = Expression<ValueToken>;
 export type ValueToken = Exclude<Token, Ref>;
 export type Token = Ref | Value | Operator;
 export type Operator = { type: 'operator'; value: OperatorType };
-export type OperatorType = '+' | '-' | '*' | '/' | '%' | '^';
+export enum OperatorType {
+	Add = '+',
+	Subtract = '-',
+	Multiply = '*',
+	Divide = '/',
+	Modulo = '%',
+	Raise = '^'
+}
 export type Ref = { type: 'ref'; name: string };
 export type Value = { type: 'value'; value: number };
