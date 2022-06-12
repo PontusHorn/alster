@@ -5,7 +5,7 @@
 <script lang="ts">
 	import { assets } from '$app/paths';
 
-	export let size: string = '1.5em';
+	export let size = '1.5em';
 	export let icon: IconName;
 </script>
 

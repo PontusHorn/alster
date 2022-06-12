@@ -3,7 +3,7 @@
 
 	export let id: string | undefined = undefined;
 	export let title: string;
-	export let hidden: boolean = false;
+	export let hidden = false;
 </script>
 
 <div {id} {hidden} class="subgroup">

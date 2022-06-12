@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let id: string | undefined = undefined;
 	export let title: string;
-	export let hidden: boolean = false;
+	export let hidden = false;
 </script>
 
 <div class="wrapper" {id} {hidden}>

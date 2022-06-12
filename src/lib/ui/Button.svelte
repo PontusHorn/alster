@@ -6,7 +6,7 @@
 	import type { PopoverButton } from '@rgossiaux/svelte-headlessui';
 
 	export let variant: ButtonVariant = 'primary';
-	export let icon: boolean = false;
+	export let icon = false;
 	export let component: typeof PopoverButton | undefined = undefined;
 
 	$: if (icon && !$$props['aria-label']) {

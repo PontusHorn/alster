@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let value: any;
+	export let value: string | number;
 </script>
 
 <input {...$$props} style:--chars={value.toString().length} bind:value />
