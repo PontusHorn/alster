@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { expressionToString, stringToExpression } from '$lib/utils/expression';
 	import { getErrorMessage } from '$lib/utils/generic';
-	import type { Expression } from '$lib/typess';
+	import type { Expression } from '$lib/typesss';
 
 	export let id: string;
 	export let expression: Expression;
