@@ -6,7 +6,7 @@
 	export let hidden: boolean = false;
 </script>
 
-<div {id} {hidden}>
+<div {id} {hidden} class="subgroup">
 	<Stack direction="column" spacing="small">
 		<h3>{title}</h3>
 		<div class="inner">
@@ -17,9 +17,7 @@
 
 <style>
 	h3 {
-		background-color: var(--color-flavorBackground);
-		border-radius: var(--borderRadius-medium);
 		line-height: 1;
-		padding: var(--spacing-small);
+		margin-block-end: var(--spacing-small);
 	}
 </style>
