@@ -24,6 +24,7 @@
 		padding: 0;
 		background: transparent;
 		border: 0;
+		cursor: pointer;
 	}
 
 	.colorPicker::-webkit-color-swatch-wrapper {
