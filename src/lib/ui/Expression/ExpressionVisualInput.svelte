@@ -5,8 +5,7 @@
 <script lang="ts">
 	import type { Expression } from '$lib/types';
 	import { setEditedExpressionPartContext } from '$lib/ui/Expression/context';
-	import ExpressionPartsEditor from '$lib/ui/Expression/ExpressionPartsEditor.svelte';
-	import ExpressionPartsSelector from '$lib/ui/Expression/ExpressionPartsSelector.svelte';
+	import { ExpressionPartsEditor, ExpressionPartsSelector } from '$lib/ui/Expression';
 	import { writable } from 'svelte/store';
 
 	const id = String(counter++);
