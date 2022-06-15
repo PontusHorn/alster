@@ -8,7 +8,14 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+
+		vite: {
+			test: {
+				// Only run vitest on files that end in .test.ts (avoids conflicting with Playwright)
+				include: ['**/*.test.ts']
+			}
+		}
 	}
 };
 
